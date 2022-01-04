@@ -74,13 +74,13 @@
     videoView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:videoView];
 
-    btnPlay = [self addButtonWithTitle:@"播放" action:@selector(onPlayVideo:)];
-    btnPause = [self addButtonWithTitle:@"暂停" action:@selector(onPauseVideo:)];
-    btnResume = [self addButtonWithTitle:@"继续" action:@selector(onResumeVideo:)];
-    btnStop = [self addButtonWithTitle:@"停止" action:@selector(onStopVideo:)];
-    btnQuit = [self addButtonWithTitle:@"退出" action:@selector(onQuit:)];
-    btnStartRecord = [self addButtonWithTitle:@"开始录屏" action:@selector(onStartRecordVideo:)];
-    btnStopRecord =[self addButtonWithTitle:@"停止录屏" action:@selector(onStopRecordVideo:)];
+    btnPlay = [self addButtonWithTitle:@"Play" action:@selector(onPlayVideo:)];
+    btnPause = [self addButtonWithTitle:@"pause" action:@selector(onPauseVideo:)];
+    btnResume = [self addButtonWithTitle:@"continue" action:@selector(onResumeVideo:)];
+    btnStop = [self addButtonWithTitle:@"stop" action:@selector(onStopVideo:)];
+    btnQuit = [self addButtonWithTitle:@"quit" action:@selector(onQuit:)];
+    btnStartRecord = [self addButtonWithTitle:@"Start recording" action:@selector(onStartRecordVideo:)];
+    btnStopRecord =[self addButtonWithTitle:@"Stop screen recording" action:@selector(onStopRecordVideo:)];
     btnStartRecord.enabled = NO;
     btnStopRecord.enabled = NO;
 
@@ -92,12 +92,12 @@
     [self.view addSubview:stat];
     
     lableHWCodec = [[UILabel alloc] init];
-    lableHWCodec.text = @"硬解码";
+    lableHWCodec.text = @"Hard decoding";
     lableHWCodec.textColor = [UIColor lightGrayColor];
     [self.view addSubview:lableHWCodec];
     
     labelVolume = [[UILabel alloc] init];
-    labelVolume.text = @"音量";
+    labelVolume.text = @"volume";
     labelVolume.textColor = [UIColor lightGrayColor];
     [self.view addSubview:labelVolume];
     
@@ -113,11 +113,11 @@
     [self.view addSubview:sliderVolume];
 
     labelRecord = [[UILabel alloc] init];
-    labelRecord.text = @"录屏方案";
+    labelRecord.text = @"Screen recording solution";
     labelRecord.textColor = [UIColor lightGrayColor];
     [self.view addSubview:labelRecord];
     
-    segRecord = [[UISegmentedControl alloc] initWithItems:@[@"关闭", @"图像混合", @"截屏"]];
+    segRecord = [[UISegmentedControl alloc] initWithItems:@[@"Off", @"Image mixing", @"Screenshot"]];
     segRecord.selectedSegmentIndex = 0;
     segRecord.layer.cornerRadius = 5;
     segRecord.backgroundColor = [UIColor lightGrayColor];
@@ -315,7 +315,7 @@
     if(recordScheme != KSYPlayerRecord_ScreenShot_Scheme && recordScheme != KSYPlayerRecord_PicMix_Scheme)
     {
         //没有设置录屏模式
-        NSString *message = @"请先选择录制类型!";
+        NSString *message = @"Please select the recording type first!";
         [self toast:message];
         return ;
     }

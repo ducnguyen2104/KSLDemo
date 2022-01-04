@@ -73,7 +73,7 @@
     //退出按钮
     btnQuit = [ctrlView addButton:@"Quit"];
 
-    lbDomain = [ctrlView addLable:@"请输入待探测地址："];
+    lbDomain = [ctrlView addLable:@"Please enter the address to be detected："];
     lbDomain.backgroundColor = [UIColor whiteColor];
     
     tfDomain = [ctrlView addTextField:@"www.baidu.com"];
@@ -198,7 +198,7 @@
         if([tracker start:tfDomain.text])
         {
             //启动探测失败
-            displayStr = @"启动探测失败，请检查网络或待探测地址!";
+            displayStr = @"Failed to start the detection, please check the network or the address to be detected!";
             //显示探测结果
             [self displayInfo];
             return ;
@@ -211,7 +211,7 @@
             btnPing.enabled = NO;
         
         isRunning = !isRunning;
-        displayStr  = stateStr = @"开始探测......\n\n";
+        displayStr  = stateStr = @"Start detection......\n\n";
         [self displayInfo];
     }
     else
@@ -223,7 +223,7 @@
             displayStr = [displayStr stringByAppendingString:[self getPingRetStr]];
         else
         {
-            displayStr = stateStr = @"停止探测，已统计结果如下：\n";
+            displayStr = stateStr = @"Stop the detection, the statistical results are as follows：\n";
             displayStr = [displayStr stringByAppendingString:infoLog];
         }
         [self displayInfo];
@@ -278,7 +278,7 @@
             displayStr = [displayStr stringByAppendingString:[self getPingRetStr]];
         else
         {
-            stateStr = @"探测完成，结果如下：\n\n";
+            stateStr = @"The detection is complete, and the results are as follows：\n\n";
             displayStr = @"";
             displayStr = [displayStr stringByAppendingString:stateStr];
             displayStr = [displayStr stringByAppendingString:infoLog];

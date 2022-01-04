@@ -76,7 +76,7 @@
     videoView = [[UIView alloc] init];
     videoView.backgroundColor = [UIColor whiteColor];
     [ctrlView addSubview:videoView];
-    btnQuit = [ctrlView addButton:@"退出"];
+    btnQuit = [ctrlView addButton:@"quit"];
     progressView = [[KSYProgressView alloc] init];
     [ctrlView addSubview:progressView];
     [self layoutUI];

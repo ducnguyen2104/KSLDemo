@@ -25,16 +25,16 @@
 }
 
 - (void) setupUI {
-    _labelContenMode = [self addLable:@"填充模式"];
-    _segContentMode = [self addSegCtrlWithItems:@[@"无", @"同比", @"裁剪", @"满屏"]];
+    _labelContenMode = [self addLable:@"Fill mode"];
+    _segContentMode = [self addSegCtrlWithItems:@[@"none", @"Year-on-year", @"Crop", @"Full screen"]];
     
-    _labelRotate = [self addLable:@"旋转"];
+    _labelRotate = [self addLable:@"Spin"];
     _segRotate = [self addSegCtrlWithItems:@[@"0", @"90", @"180", @"270"]];
     
-    _labelMirror = [self addLable:@"镜像"];
-    _segMirror = [self addSegCtrlWithItems:@[@"正向", @"反向"]];
+    _labelMirror = [self addLable:@"Mirror image"];
+    _segMirror = [self addSegCtrlWithItems:@[@"Positive", @"Reverse"]];
     
-    _btnShotScreen = [self addButton:@"截图"];
+    _btnShotScreen = [self addButton:@"screenshot"];
     [self layoutUI];
 }
 

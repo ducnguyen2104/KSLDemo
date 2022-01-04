@@ -49,9 +49,9 @@
         [selfWeak  onBtn:sender];
     };
     
-    btnProbe = [ctrlView addButton:@"探测格式"];
-    btnThumbnail = [ctrlView addButton:@"缩略图"];
-    btnQuit = [ctrlView addButton:@"退出"];
+    btnProbe = [ctrlView addButton:@"Probe format"];
+    btnThumbnail = [ctrlView addButton:@"Thumbnail"];
+    btnQuit = [ctrlView addButton:@"quit"];
 
     stat = [ctrlView addLable:nil];
     stat.backgroundColor = [UIColor clearColor];
@@ -163,9 +163,9 @@
     {
         //截图失败
         UIAlertView *toast = [[UIAlertView alloc] initWithTitle:@"￣へ￣"
-                                                        message:@"缩略图截取失败！"
+                                                        message:@"Thumbnail capture failed！"
                                                        delegate:nil
-                                              cancelButtonTitle:@"确定"
+                                              cancelButtonTitle:@"Sure"
                                               otherButtonTitles:nil, nil];
         [toast show];
     }

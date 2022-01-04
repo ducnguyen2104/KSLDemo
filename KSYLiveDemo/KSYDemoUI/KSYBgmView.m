@@ -69,7 +69,7 @@
 }
 
 - (NSString*) loopNextBgmPath {
-    //@"单曲播放", @"单曲循环", @"随机播放",@"循环播放"]
+    //@"Single play", @"single loop", @"random play",@"loop play"]
     if (_loopType.selectedSegmentIndex == 0) {
     }
     else if (_loopType.selectedSegmentIndex == 1) {

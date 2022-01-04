@@ -94,7 +94,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     KSYVideoListCell *cell = [tableView dequeueReusableCellWithIdentifier:kVideoListCellReuseId forIndexPath:indexPath];
     //视频标题
-    cell.textLabel.text = [NSString stringWithFormat:@"视频-%ld    封面图",(long)indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"video-%ld    cover picture",(long)indexPath.row];
     
     return cell;
 }
@@ -180,7 +180,7 @@
         [quitBtn addTarget:self action:@selector(onQuit:) forControlEvents:UIControlEventTouchUpInside];
         quitBtn.backgroundColor = [UIColor lightGrayColor];
         [quitBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [quitBtn setTitle:@"返回" forState:UIControlStateNormal];
+        [quitBtn setTitle:@"return" forState:UIControlStateNormal];
         [quitBtn sizeToFit];
         return quitBtn;
     }

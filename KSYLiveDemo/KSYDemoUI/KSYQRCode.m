@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _buttonBack = [self addButton:@"返回"];
+    _buttonBack = [self addButton:@"return"];
     _labelPlayUrl = [self addLabelWithText:_url textColor:[UIColor blueColor]];
     self.view.backgroundColor = [UIColor whiteColor];
     

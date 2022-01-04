@@ -24,9 +24,9 @@
 - (void) setupUI {
     
     _btnReload = [self addButton:@"reload"];
-    _btnFloat = [self addButton:@"悬窗"];
-    _labelRec = [self addLable:@"开启/关闭录制"];
-    _btnPrintMeta = [self addButton:@"显示媒体信息"];
+    _btnFloat = [self addButton:@"Hanging window"];
+    _labelRec = [self addLable:@"Turn on/off recording"];
+    _btnPrintMeta = [self addButton:@"Show media information"];
     _switchRec = [self addSwitch:NO];
     
     _labelMeta = [self addLable:nil];

@@ -70,9 +70,9 @@ static const CGFloat kViewSpacing = 10.f;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"isRunning"]) {
         if (_isRunning) {
-            [_controlButton setTitle:@"停止" forState:UIControlStateNormal];
+            [_controlButton setTitle:@"stop" forState:UIControlStateNormal];
         } else {
-            [_controlButton setTitle:@"运行" forState:UIControlStateNormal];
+            [_controlButton setTitle:@"run" forState:UIControlStateNormal];
         }
     }
 }
@@ -104,9 +104,9 @@ static const CGFloat kViewSpacing = 10.f;
     [ctrlView addSubview:_logView];
     _logView.delegate = self;
     
-    _controlButton = [ctrlView addButton:@"运行"];
-    _scanButton = [ctrlView addButton:@"扫码"];
-    _quitButton = [ctrlView addButton:@"退出"];
+    _controlButton = [ctrlView addButton:@"run"];
+    _scanButton = [ctrlView addButton:@"Scan code"];
+    _quitButton = [ctrlView addButton:@"quit"];
     
     [self layoutUI];
     

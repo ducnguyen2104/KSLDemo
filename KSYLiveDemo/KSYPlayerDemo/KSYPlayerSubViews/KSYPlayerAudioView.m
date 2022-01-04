@@ -23,13 +23,13 @@
 }
 
 - (void) setupUI {
-    _labelMute = [self addLable:@"静音"];
+    _labelMute = [self addLable:@"Mute"];
     _switchMute = [self addSwitch:NO];
     
     _sliderVolume =  [self addSliderName:@"音量" From:0 To:200 Init:100];
     
-    _labelAudioPan = [self addLable:@"立体声平衡"];
-    _segAudioPan = [self addSegCtrlWithItems:@[@"左声道", @"立体声", @"右声道"]];
+    _labelAudioPan = [self addLable:@"Stereo balance"];
+    _segAudioPan = [self addSegCtrlWithItems:@[@"Left Channel", @"Stereo", @"Right Channel"]];
     _segAudioPan.selectedSegmentIndex = 1;
     
     [self layoutUI];

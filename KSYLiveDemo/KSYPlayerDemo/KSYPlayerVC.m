@@ -142,16 +142,16 @@
     videoView.backgroundColor = [UIColor whiteColor];
     [ctrlView addSubview:videoView];
     
-    btnVideo = [ctrlView addButton:@"图像"];
-    btnAudio = [ctrlView addButton:@"声音"];
-    btnSubtitle = [ctrlView addButton:@"字幕"];
-    btnOthers = [ctrlView addButton:@"其它"];
+    btnVideo = [ctrlView addButton:@"image"];
+    btnAudio = [ctrlView addButton:@"sound"];
+    btnSubtitle = [ctrlView addButton:@"subtitle"];
+    btnOthers = [ctrlView addButton:@"other"];
     
-    btnPlay = [ctrlView addButton:@"播放"];
-    btnPause = [ctrlView addButton:@"暂停"];
-    btnResume = [ctrlView addButton:@"继续"];
-    btnStop = [ctrlView addButton:@"停止"];
-    btnQuit = [ctrlView addButton:@"退出"];
+    btnPlay = [ctrlView addButton:@"Play"];
+    btnPause = [ctrlView addButton:@"pause"];
+    btnResume = [ctrlView addButton:@"continue"];
+    btnStop = [ctrlView addButton:@"stop"];
+    btnQuit = [ctrlView addButton:@"quit"];
 
     progressView = [[KSYProgressView alloc] init];
     [ctrlView addSubview:progressView];
@@ -900,31 +900,31 @@
         double flowSize = [_player readSize];
         KSYQosInfo *info = _player.qosInfo;
         labelStat.text = [NSString stringWithFormat:@
-                          "SDK版本:v%@\n"
-                          "播放器实例:%p\n"
-                          "拉流URL:%@\n"
-                          "服务器IP:%@\n"
-                          "客户端IP:%@\n"
-                          "本地DNS IP:%@\n"
-                          "分辨率:(宽-高: %.0f-%.0f)\n"
-                          "已播时长:%.1fs\n"
-                          "缓存时长:%.1fs\n"
-                          "视频总长%.1fs\n"
-                          "cache次数:%.1fs/%ld\n"
-                          "最大缓冲时长:%.1fs\n"
-                          "速度: %0.1f kbps\n视频/音频渲染用时:%dms/%dms\n"
-                          "HTTP连接用时:%ldms\n"
-                          "DNS解析用时:%ldms\n"
-                          "首包到达用时（连接建立后）:%ldms\n"
-                          "音频缓冲队列长度:%.1fMB\n"
-                          "音频缓冲队列时长:%.1fs\n"
-                          "已下载音频数据量:%.1fMB\n"
-                          "视频缓冲队列长度:%.1fMB\n"
-                          "视频缓冲队列时长:%.1fs\n"
-                          "已下载视频数据量:%.1fMB\n"
-                          "已下载总数据量%.1fMB\n"
-                          "解码帧率:%.2f 显示帧率:%.2f\n"
-                          "网络连通性:%@\n",
+                          "SDKVersion:v%@\n"
+                          "Player instance:%p\n"
+                          "Pull streamURL:%@\n"
+                          "serverIP:%@\n"
+                          "ClientIP:%@\n"
+                          "localDNS IP:%@\n"
+                          "Resolution:(Width Height: %.0f-%.0f)\n"
+                          "Elapsed time:%.1fs\n"
+                          "Cache duration:%.1fs\n"
+                          "Video total length%.1fs\n"
+                          "cache frequency:%.1fs/%ld\n"
+                          "Max buffer time:%.1fs\n"
+                          "speed: %0.1f kbps\nvideo/Audio rendering time:%dms/%dms\n"
+                          "HTTPConnection time:%ldms\n"
+                          "DNSAnalysis time:%ldms\n"
+                          "Time when the first packet arrives (after the connection is established):%ldms\n"
+                          "Audio buffer queue size:%.1fMB\n"
+                          "Audio buffer queue duration:%.1fs\n"
+                          "Amount of downloaded audio data:%.1fMB\n"
+                          "Video buffer queue size:%.1fMB\n"
+                          "Video buffer queue duration:%.1fs\n"
+                          "The amount of downloaded video data:%.1fMB\n"
+                          "Total data downloaded%.1fMB\n"
+                          "Decoding frame rate:%.2f Display frame rate:%.2f\n"
+                          "Network connectivity:%@\n",
                           
                           [_player getVersion],
                           _player,

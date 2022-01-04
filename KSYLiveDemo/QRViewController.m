@@ -50,8 +50,8 @@
 - (void)addViews{
     _viewPreview = [self addViewPreview];
     _QRLabel     = [self addLable];
-    _scanBtn     = [self addButton:@"正在扫描..."];
-    _backBtn     = [self addButton:@"返回"];
+    _scanBtn     = [self addButton:@"Scanning..."];
+    _backBtn     = [self addButton:@"return"];
     _scanBtn.frame = CGRectMake(0, _height - 30, _width, 30);
     _backBtn.frame = CGRectMake(20, 30, 80, 30);
 }
@@ -97,14 +97,14 @@
     if (!_isReading) {
         //开始扫描
         if ([self startReading]) {
-            [_scanBtn setTitle:@"正在扫描..." forState:UIControlStateNormal];
+            [_scanBtn setTitle:@"Scanning..." forState:UIControlStateNormal];
             [_QRLabel setText:@"Scanning for QR Code"];
         }
     }
     else{
         //停止扫描
         [self stopReading];
-        [_scanBtn setTitle:@"重新扫描" forState:UIControlStateNormal];
+        [_scanBtn setTitle:@"Rescan" forState:UIControlStateNormal];
     }
     _isReading = !_isReading;
 }
@@ -208,7 +208,7 @@
     _captureSeesion = nil;
     [_scanLayer removeFromSuperlayer];
     [_videoPreviewLayer removeFromSuperlayer];
-    [_scanBtn setTitle:@"重新扫描" forState:UIControlStateNormal];
+    [_scanBtn setTitle:@"Rescan" forState:UIControlStateNormal];
     if (self.getQrCode) {
         self.getQrCode(_QRLabel.text);
     }

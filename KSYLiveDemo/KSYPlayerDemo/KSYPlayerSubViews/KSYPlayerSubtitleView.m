@@ -74,12 +74,12 @@
 }
 
 - (void) setupUI {
-    _sliderFontSize =  [self addSliderName:@"大小" From:12 To:20 Init:16];
-    _labelColor =  [self addLable:@"颜色"];
-    _labelFont = [self addLable:@"字体"];
-    _labelSubtitle = [self addLable:@"切换内嵌字幕"];
-    _btnCloseSubtitle = [self addButton:@"关闭字幕"];
-    _btnOpenSubtitleFile = [self addButton:@"打开本地字幕文件"];
+    _sliderFontSize =  [self addSliderName:@"size" From:12 To:20 Init:16];
+    _labelColor =  [self addLable:@"color"];
+    _labelFont = [self addLable:@"Font"];
+    _labelSubtitle = [self addLable:@"Toggle embedded subtitles"];
+    _btnCloseSubtitle = [self addButton:@"Turn off subtitles"];
+    _btnOpenSubtitleFile = [self addButton:@"Open local subtitle file"];
     
     _tableSubtitle= [[UITableView alloc]init];
     _tableSubtitle.delegate   = self;
@@ -130,7 +130,7 @@
         NSMutableArray *subtitleItem = [NSMutableArray array];
         for(int i = 0; i < _subtitleNum; i++)
         {
-            NSString *name  = [NSString stringWithFormat:@"字幕%d", i+1];
+            NSString *name  = [NSString stringWithFormat:@"subtitle %d", i+1];
             [subtitleItem addObject:name];
         }
         _segSubtitle = [self addSegCtrlWithItems:subtitleItem];

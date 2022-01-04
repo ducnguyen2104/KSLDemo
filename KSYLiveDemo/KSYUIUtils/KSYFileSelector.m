@@ -112,7 +112,7 @@
                                 error:nil];
             [fm copyItemAtURL:location toURL:saveURL error:&saveError];
             if (!saveError) {
-                NSLog(@"下载成功");
+                NSLog(@"download successful");
                 [selfWeak reload];
             } else {
                 NSLog(@"error is %@", saveError.localizedDescription);
