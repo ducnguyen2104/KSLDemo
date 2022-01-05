@@ -24,19 +24,31 @@
     self = [super init];
     self.backgroundColor = [UIColor whiteColor];
     // hostURL = rtmpSrv + streamName(随机数,避免多个demo推向同一个流
-    NSString *rtmpSrv = @"rtmp://mobile.kscvbu.cn/live";
+    NSString *rtmpSrv = @"rtmp://192.168.1.122/live";
     NSString *devCode = [ [KSYUIView getUuid] substringToIndex:3];
     NSString *url     = [  NSString stringWithFormat:@"%@/%@", rtmpSrv, devCode];
     _hostUrlUI = [self addTextField:url ];
     _doneBtn =  [self addButton:@"ok"];
     _btn0 =  [self addButton:@"Start live broadcast"];
+    _btn0.titleLabel.numberOfLines = 0;
+    _btn0.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _btn1 =  [self addButton:@"Picture in Picture Live"];
+    _btn1.titleLabel.numberOfLines = 0;
+    _btn1.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
 #ifdef KSYSTREAMER_DEMO
     _btn2 =  [self addButton:@"forTest"];
+    _btn2.titleLabel.numberOfLines = 0;
+    _btn2.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
 #endif
     _btn3 =  [self addButton:@"Background music live"];
+    _btn3.titleLabel.numberOfLines = 0;
+    _btn3.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _btn4 =  [self addButton:@"return"];
+    _btn4.titleLabel.numberOfLines = 0;
+    _btn4.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _btn5 = [self addButton:@"Floating window live broadcast"];
+    _btn5.titleLabel.numberOfLines = 0;
+    _btn5.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
     _lblCameraPosUI = [self addLable:@"camera"];
     _cameraPosUI    = [self addSegCtrlWithItems:@[@"Front",@"Rear"]];

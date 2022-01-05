@@ -41,19 +41,19 @@
     _lblStereo     = [self addLable:@"Stereo streaming"];
     _stereoStream  = [self addSwitch:NO];
     _lblReverb  = [self addLable:@"reverberation"];
-    _reverbType = [self addSegCtrlWithItems:@[@"closure", @"Video studio",
+    _reverbType = [self addSegCtrlWithItems:@[@"off", @"Video studio",
                                               @"concert",@"KTV",@"Small stage"]];
     _lblPlayCapture = [self addLable:@"Ear return"];
     _swPlayCapture  = [self addSwitch:NO];
     _playCapVol= [self addSliderName:@"Ear return volume"  From:0.0 To:1.0 Init:0.5];
-    _effectType  = [self addSegCtrlWithItems:@[@"Turn off voice changer",@"Uncle", @"Loli", @"solemn", @"robot", @"customize"]];
+    _effectType  = [self addSegCtrlWithItems:@[@"Off voice changer", @"Uncle", @"Loli", @"solemn", @"robot", @"custom"]];
     _reverbEffectParamsVaule= [self addSliderName:@"reverb parameter value"  From:0.0 To:100.0 Init:0.0];
     _delayEffectParamsVaule= [self addSliderName:@"delay parameter value"  From:0.0 To:100.0 Init:50.0];
     _pitchEffectParamsVaule= [self addSliderName:@"pitch parameter value"  From:-2400.0 To:2400.0 Init:1.0];
     _swReverbEffect  = [self addSwitch:NO];
     _swDelayEffect  = [self addSwitch:NO];
     _swPitchEffect  = [self addSwitch:NO];
-    _noiseSuppressSeg = [self addSegCtrlWithItems:@[@"Turn off denoising",@"Low", @"middle", @"high", @"Very high"]];
+    _noiseSuppressSeg = [self addSegCtrlWithItems:@[@"Off denoising",@"Low", @"middle", @"high", @"Very high"]];
     _noiseSuppressSeg.selectedSegmentIndex = 3;
     _audioDataTypeSeg = [self addSegCtrlWithItems:@[@"CMSampleBufer",@"RawPcm"]];
     return self;

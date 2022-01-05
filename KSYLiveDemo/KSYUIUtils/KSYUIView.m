@@ -266,8 +266,13 @@
     segC.selectedSegmentIndex = 0;
     segC.layer.cornerRadius = 5;
     segC.backgroundColor = [UIColor lightGrayColor];
+    UIFont *font = [UIFont systemFontOfSize:9];
+    NSDictionary *attributes = [NSDictionary dictionaryWithObject:font
+                                                           forKey:NSFontAttributeName];
+    [segC setTitleTextAttributes:attributes
+                        forState:UIControlStateNormal];
     [segC addTarget:self
-               action:@selector(onSegCtrl:)
+             action:@selector(onSegCtrl:)
      forControlEvents:UIControlEventValueChanged];
     [self addSubview:segC];
     return segC;
@@ -276,6 +281,7 @@
 - (UILabel *)addLable:(NSString*)title{
     UILabel *  lbl = [[UILabel alloc] init];
     lbl.text = title;
+    lbl.font = [UIFont systemFontOfSize:9];
     [self addSubview:lbl];
     lbl.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3]; 
     return lbl;
@@ -340,6 +346,7 @@
     sl.slider.maximumValue = maxV;
     sl.slider.value = iniV;
     sl.nameL.text = name;
+    sl.nameL.font = [UIFont systemFontOfSize:9];
     sl.normalValue = (iniV -minV)/maxV;
     sl.valueL.text = [NSString stringWithFormat:@"%d", (int)iniV];
     if (iniV <2){

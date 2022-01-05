@@ -21,7 +21,7 @@
 -(id)init{
     self = [super init];
     _bgmTitle   = [self addLable:@"Background music address Documents/bgms"];
-    _previousBtn= [self addButton:@"Previous song"];
+    _previousBtn= [self addButton:@"Prev"];
     _playBtn    = [self addButton:@"Play"];
     _pauseBtn   = [self addButton:@"pause"];
     [_pauseBtn setTitle: @"continue" forState: UIControlStateSelected];
@@ -38,7 +38,7 @@
     [_pitchStep addTarget:self
                    action:@selector(onStep:)
          forControlEvents:UIControlEventValueChanged];
-    _nextBtn    = [self addButton:@"next song"];
+    _nextBtn    = [self addButton:@"next"];
     _bgmStatus  = @"idle";
     _bgmPattern = @[@".mp3", @".m4a", @".aac"];
     _bgmSel     = [[KSYFileSelector alloc] initWithDir:@"/Documents/bgms/"

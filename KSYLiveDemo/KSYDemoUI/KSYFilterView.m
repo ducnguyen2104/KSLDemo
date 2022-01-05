@@ -17,7 +17,7 @@
     NSInteger _curIdx;
     NSArray * _effectNames;
     NSInteger _curEffectIdx;
-    //GPUResource资源的存储路径
+    //GPUResource storage path
     NSString *_gpuResourceDir;
 }
 
@@ -72,7 +72,7 @@
                     @"32 Elegant ", nil];
     [self downloadGPUResource];
     _curEffectIdx = 1;
-    // 修改美颜参数
+    // Modify beauty parameters
     _filterParam1 = [self addSliderName:@"parameter" From:0 To:100 Init:50];
     _filterParam2 = [self addSliderName:@"Whitening" From:0 To:100 Init:50];
     _filterParam3 = [self addSliderName:@"rosy" From:0 To:100 Init:50];
@@ -106,12 +106,12 @@
     [self selectFilter:1];
     
     _lbPrevewFlip = [self addLable:@"Preview mirror"];
-    _lbStreamFlip = [self addLable:@"Push streaming mirror"];
+    _lbStreamFlip = [self addLable:@"Stream mirror"];
     _swPrevewFlip = [self addSwitch:NO];
     _swStreamFlip = [self addSwitch:NO];
     
     _lbUiRotate   = [self addLable:@"UI rotation"];
-    _lbStrRotate  = [self addLable:@"Push stream rotation"];
+    _lbStrRotate  = [self addLable:@"stream rotation"];
     _swUiRotate   = [self addSwitch:NO];
     _swStrRotate  = [self addSwitch:NO];
     _swStrRotate.enabled = NO;
@@ -162,7 +162,7 @@
 
 - (IBAction)onSwitch:(id)sender {
     if (sender == _swUiRotate){
-        // 只有界面跟随设备旋转, 推流才能旋转
+        // Only when the interface rotates with the device, the push stream can rotate
         _swStrRotate.enabled = _swUiRotate.on;
         if (!_swUiRotate.on) {
             _swStrRotate.on = NO;

@@ -80,15 +80,15 @@ typedef NS_ENUM(NSInteger, KSYDemoMenuType){
     NSString * uuidStr =[[[UIDevice currentDevice] identifierForVendor] UUIDString];
     NSString *devCode  = [[uuidStr substringToIndex:3] lowercaseString];
     //推流地址
-    NSString *streamSrv  = @"rtmp://mobile.kscvbu.cn/live";
+    NSString *streamSrv  = @"rtmp://192.168.1.122/live";
     NSString *streamUrl      = [ NSString stringWithFormat:@"%@/%@", streamSrv, devCode];
     _arrayStreamAddress = [NSMutableArray arrayWithObjects:streamUrl,nil];
     //推流地址对应的拉流地址
-    NSString *streamPlaySrv = @"http://mobile.kscvbu.cn:8080/live";
+    NSString *streamPlaySrv = @"http://192.168.1.122/live";
     NSString *streamPlayPostfix = @".flv";
     NSString *streamPlayUrl = [ NSString stringWithFormat:@"%@/%@%@", streamPlaySrv, devCode,streamPlayPostfix];
     //拉流地址
-    NSString *playUrl = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
+    NSString *playUrl = @"rtmp://192.168.1.122/live/hks";
     _arrayPlayAddress = [NSMutableArray array];
     [_arrayPlayAddress addObject:playUrl];
     [_arrayPlayAddress addObject:streamPlayUrl];

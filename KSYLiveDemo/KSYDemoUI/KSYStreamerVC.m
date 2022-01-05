@@ -62,7 +62,7 @@
     self = [super init];
     _presetCfgView = presetCfgView;
     [self initObservers];
-    _menuNames = @[@"Background music", @"Image/beauty",@"sound", @"information", @"other"];
+    _menuNames = @[@"BG music", @"Img / beauty",@"sound", @"info", @"other"];
     self.view.backgroundColor = [UIColor blackColor];
     _dlLock = [[NSLock alloc] init];
     return self;

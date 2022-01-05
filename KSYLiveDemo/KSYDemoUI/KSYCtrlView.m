@@ -26,6 +26,18 @@
     _btnStream =  [self addButton:@"Push stream"  ];
     _btnCapture=  [self addButton:@"collection"  ];
     _lblStat   =  [[KSYStateLableView alloc] init];
+    
+    _btnFlash.titleLabel.numberOfLines = 0;
+    _btnFlash.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _btnCameraToggle.titleLabel.numberOfLines = 0;
+    _btnCameraToggle.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _btnQuit.titleLabel.numberOfLines = 0;
+    _btnQuit.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _btnStream.titleLabel.numberOfLines = 0;
+    _btnStream.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _btnCapture.titleLabel.numberOfLines = 0;
+    _btnCapture.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    
     [self addSubview:_lblStat];
     // format
     _lblNetwork.textAlignment = NSTextAlignmentCenter;
@@ -47,6 +59,7 @@
 
 - (void) layoutUI {
     [super layoutUI];
+    self.btnH = 50;
     if ( self.width <self.height ){
         self.yPos =self.gap*5; // skip status bar
     }
