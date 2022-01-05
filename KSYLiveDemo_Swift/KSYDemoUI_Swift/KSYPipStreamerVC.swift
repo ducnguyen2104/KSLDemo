@@ -30,7 +30,7 @@ class KSYPipStreamerVC: KSYStreamerVC {
     
     override func viewDidLoad() {
         if let _ = menuNames {
-            menuNames!.append("画中画")
+            menuNames!.append("Picture in Picture")
         }
         pipKit = KSYGPUPipStreamerKit.init(defaultCfg: ())
         kit = pipKit
@@ -67,7 +67,7 @@ class KSYPipStreamerVC: KSYStreamerVC {
         kit?.appBecomeActive()
     }
     
-    func onPipStateChange(notify: Notification) {
+    @objc func onPipStateChange(notify: Notification) {
         let st = pipKit?.getCurPipStateName()
         ksyPipView?.pipStatus = (st! as NSString).substring(from: 20)
     }

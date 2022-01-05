@@ -59,25 +59,25 @@ class KSYMiscView: KSYUIView {
     
     override init(withParent pView: KSYUIView) {
         super.init(withParent: pView)
-        btn0 = addButton(title: "str截图为文件")
-        btn1 = addButton(title: "str截图为UIImage")
-        btn2 = addButton(title: "filter截图")
+        btn0 = addButton(title: "str screenshot as a file")
+        btn1 = addButton(title: "str screenshot as a UIImage")
+        btn2 = addButton(title: "filter screenshot")
         
-        btn3 = addButton(title: "选择Logo")
-        btn4 = addButton(title: "拍摄Logo")
+        btn3 = addButton(title: "chooseLogo")
+        btn4 = addButton(title: "ShootLogo")
         
-        _lblRec = addLabel(title: "旁路录制")
+        _lblRec = addLabel(title: "Bypass recording")
         swBypassRec = addSwitch(on: false)
         lblRecDur = addLabel(title: "0s")
         
-        layerSeg = addSegCtrlWithItems(items: ["logo", "文字"])
+        layerSeg = addSegCtrlWithItems(items: ["logo", "Word"])
         alphaSl = addSlider(name: "alpha", from: 0.0, to: 1.0, initV: 1.0)
         
-        _lblScene = addLabel(title: "直播场景")
-        liveSceneSeg = addSegCtrlWithItems(items: ["默认", "秀场"])
-        _lblPerf = addLabel(title: "编码性能")
-        vEncPerfSeg = addSegCtrlWithItems(items: ["低功耗", "均衡", "高性能"])
-        autoReconnect = addSlider(name: "自动重连次数", from: 0.0, to: 10, initV: 3)
+        _lblScene = addLabel(title: "Live scene")
+        liveSceneSeg = addSegCtrlWithItems(items: ["default", "Show"])
+        _lblPerf = addLabel(title: "Encoding performance")
+        vEncPerfSeg = addSegCtrlWithItems(items: ["Low power consumption", "balanced", "high performance"])
+        autoReconnect = addSlider(name: "Automatic reconnection times", from: 0.0, to: 10, initV: 3)
     }
     
     required init?(coder aDecoder: NSCoder) {

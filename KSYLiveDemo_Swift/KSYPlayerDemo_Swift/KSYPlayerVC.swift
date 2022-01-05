@@ -105,17 +105,17 @@ class KSYPlayerVC: UIViewController {
         videoView!.backgroundColor = UIColor.white
         view.addSubview(videoView!)
         
-        btnPlay = addButton(with: "播放", action: #selector(onPlayVideo(sender:)))
-        btnPause = addButton(with: "暂停", action: #selector(onPauseVideo(sender:)))
-        btnResume = addButton(with: "继续", action: #selector(onResumeVideo(sender:)))
-        btnStop = addButton(with: "停止", action: #selector(onStopVideo(sender:)))
-        btnQuit = addButton(with: "退出", action: #selector(onQuit(sender:)))
-        btnRotate = addButton(with: "旋转", action: #selector(onRotate(sender:)))
-        btnContentMode = addButton(with: "缩放", action: #selector(onContentMode(sender:)))
+        btnPlay = addButton(with: "Play", action: #selector(onPlayVideo(sender:)))
+        btnPause = addButton(with: "pause", action: #selector(onPauseVideo(sender:)))
+        btnResume = addButton(with: "continue", action: #selector(onResumeVideo(sender:)))
+        btnStop = addButton(with: "stop", action: #selector(onStopVideo(sender:)))
+        btnQuit = addButton(with: "quit", action: #selector(onQuit(sender:)))
+        btnRotate = addButton(with: "Spin", action: #selector(onRotate(sender:)))
+        btnContentMode = addButton(with: "Zoom", action: #selector(onContentMode(sender:)))
         btnReload = addButton(with: "reload", action: #selector(onReloadVideo(sender:)))
-        btnShotScreen = addButton(with: "截图", action: #selector(onShotScreen(sender:)))
+        btnShotScreen = addButton(with: "screenshot", action: #selector(onShotScreen(sender:)))
         btnMute = addButton(with: "mute", action: #selector(onMute(sender:)))
-        btnMirror = addButton(with: "镜像", action: #selector(onMirror(sender:)))
+        btnMirror = addButton(with: "Mirror image", action: #selector(onMirror(sender:)))
         
         stat = UILabel()
         stat?.backgroundColor = UIColor.clear
@@ -132,12 +132,12 @@ class KSYPlayerVC: UIViewController {
         view.addSubview(msg!)
         
         lableHWCodec = UILabel()
-        lableHWCodec?.text = "硬解码"
+        lableHWCodec?.text = "Hard decoding"
         lableHWCodec?.textColor = .lightGray
         view.addSubview(lableHWCodec!)
         
         labelVolume = UILabel()
-        labelVolume?.text = "音量"
+        labelVolume?.text = "volume"
         labelVolume?.textColor = .lightGray
         view.addSubview(labelVolume!)
         
@@ -157,10 +157,10 @@ class KSYPlayerVC: UIViewController {
         
         layoutUI()
         
-        view.bringSubview(toFront: stat!)
+        view.bringSubviewToFront(stat!)
         stat!.frame = UIScreen.main.bounds
         
-        view.bringSubview(toFront: msg!)
+        view.bringSubviewToFront(msg!)
         msg!.frame = UIScreen.main.bounds
     }
     
@@ -293,7 +293,7 @@ class KSYPlayerVC: UIViewController {
         }
     }
     
-    func onVolumeChanged(slider: UISlider) {
+    @objc func onVolumeChanged(slider: UISlider) {
         if let _ = player {
             player!.setVolume(slider.value / 100, rigthVolume: slider.value / 100)
         }
@@ -321,7 +321,7 @@ class KSYPlayerVC: UIViewController {
         return Date().timeIntervalSince1970
     }
     
-    func handlePlayerNotify(notify: Notification) {
+    @objc func handlePlayerNotify(notify: Notification) {
         guard let _ = player else {
             return
         }
@@ -454,7 +454,7 @@ class KSYPlayerVC: UIViewController {
         player?.controlStyle = MPMovieControlStyle.none
         player!.view.frame = videoView!.bounds
         videoView!.addSubview(player!.view)
-        videoView?.bringSubview(toFront: stat!)
+        videoView?.bringSubviewToFront(stat!)
         videoView?.autoresizesSubviews = true
         player!.view.autoresizingMask = [.flexibleWidth,.flexibleHeight]
         player!.shouldAutoplay = true
@@ -481,17 +481,17 @@ class KSYPlayerVC: UIViewController {
         player!.prepareToPlay()
     }
     
-    func didFinishSaving(image: UIImage, error: NSError?, contextInfo: UnsafeMutableRawPointer) {
+    @objc func didFinishSaving(image: UIImage, error: NSError?, contextInfo: UnsafeMutableRawPointer) {
         if let _ = error {
-            let toast = UIAlertView.init(title: "￣へ￣", message: "缩略图截取失败！", delegate: nil, cancelButtonTitle: "确定")
+            let toast = UIAlertView.init(title: "￣へ￣", message: "Thumbnail capture failed！", delegate: nil, cancelButtonTitle: "ok")
             toast.show()
         }else{
-            let toast = UIAlertView.init(title: "O(∩_∩)O~~", message: "截图已保存至手机相册", delegate: nil, cancelButtonTitle: "确定")
+            let toast = UIAlertView.init(title: "O(∩_∩)O~~", message: "The screenshot has been saved to the phone album", delegate: nil, cancelButtonTitle: "ok")
             toast.show()
         }
     }
 
-    func onShotScreen(sender: NSObject) {
+    @objc func onShotScreen(sender: NSObject) {
         guard let _ = player else {
             return
         }
@@ -499,30 +499,30 @@ class KSYPlayerVC: UIViewController {
         UIImageWriteToSavedPhotosAlbum(thumbnailImage!, self, #selector(didFinishSaving(image:error:contextInfo:)), nil)
     }
     
-    func onPlayVideo(sender: NSObject) {
+    @objc func onPlayVideo(sender: NSObject) {
         if let _ = player {
-            player!.setUrl(URL.init(string: "rtmp://live.hkstv.hk.lxdns.com/live/hks"))
+            player!.setUrl(URL.init(string: "rtmp://192.168.1.122/live/hks"))
             player!.prepareToPlay()
         }else{
             initPlayer(withURL: url!)
         }
     }
     
-    func onReloadVideo(sender: NSObject) {
+    @objc func onReloadVideo(sender: NSObject) {
         guard let _ = player else {
             return
         }
         player!.reload(reloadUrl, flush: true, mode: .accurate)
     }
     
-    func onPauseVideo(sender: NSObject) {
+    @objc func onPauseVideo(sender: NSObject) {
         guard let _ = player else {
             return
         }
         player!.pause()
     }
     
-    func onResumeVideo(sender: NSObject) {
+    @objc func onResumeVideo(sender: NSObject) {
         guard let _ = player else {
             return
         }
@@ -530,7 +530,7 @@ class KSYPlayerVC: UIViewController {
         StartTimer()
     }
     
-    func onStopVideo(sender: NSObject) {
+    @objc func onStopVideo(sender: NSObject) {
         guard let _ = player else {
             return
         }
@@ -569,7 +569,7 @@ class KSYPlayerVC: UIViewController {
         timer = nil
     }
     
-    func updateStat(time: Timer) {
+    @objc func updateStat(time: Timer) {
         if 0 == lastCheckTime {
             lastCheckTime = getCurrentTime()
             return
@@ -583,30 +583,30 @@ class KSYPlayerVC: UIViewController {
         let info = player!.qosInfo
 
         let infoStr = String.init(format:
-            "SDK版本:v%@\n" +
-            "播放器实例:%p\n" +
-            "拉流URL:%@\n" +
-            "服务器IP:%@\n" +
-            "客户端IP:%@\n" +
-            "本地DNS IP:%@\n" +
-            "分辨率:(宽-高: %.0f-%.0f)\n" +
-            "已播时长:%.1fs\n" +
-            "缓存时长:%.1fs\n" +
-            "视频总长%.1fs\n" +
-            "cache次数:%.1fs/%ld\n" +
-            "最大缓冲时长:%.1fs\n" +
-            "速度: %0.1f kbps\n视频/音频渲染用时:%dms/%dms\n" +
-            "HTTP连接用时:%ldms\n" +
-            "DNS解析用时:%ldms\n" +
-            "首包到达用时（连接建立后）:%ldms\n" +
-            "音频缓冲队列长度:%.1fMB\n" +
-            "音频缓冲队列时长:%.1fs\n" +
-            "已下载音频数据量:%.1fMB\n" +
-            "视频缓冲队列长度:%.1fMB\n" +
-            "视频缓冲队列时长:%.1fs\n" +
-            "已下载视频数据量:%.1fMB\n" +
-            "已下载总数据量%.1fMB\n" +
-            "解码帧率:%.2f 显示帧率:%.2f\n",
+            "SDKVersion:v%@\n" +
+            "Player instance:%p\n" +
+            "Pull streamURL:%@\n" +
+            "serverIP:%@\n" +
+            "ClientIP:%@\n" +
+            "localDNS IP:%@\n" +
+            "Resolution: (W-H: %.0f-%.0f)\n" +
+            "Elapsed time:%.1fs\n" +
+            "Cache duration:%.1fs\n" +
+            "Video total length:%.1fs\n" +
+            "cache frequency:%.1fs/%ld\n" +
+            "Max buffer time:%.1fs\n" +
+            "speed: %0.1f kbps\nvideo/Audio rendering time:%dms/%dms\n" +
+            "HTTPConnection time:%ldms\n" +
+            "DNSAnalysis time:%ldms\n" +
+            "Time when the first packet arrives (after the connection is established):%ldms\n" +
+            "Audio buffer queue length:%.1fMB\n" +
+            "Audio buffer queue length:%.1fs\n" +
+            "Amount of downloaded audio data:%.1fMB\n" +
+            "Video buffer queue size:%.1fMB\n" +
+            "Video buffer queue duration:%.1fs\n" +
+            "The amount of downloaded video data:%.1fMB\n" +
+            "Total data downloaded%.1fMB\n" +
+            "Decoding frame rate:%.2f Display frame rate:%.2f\n",
             
             player!.getVersion(),
             player!,
@@ -647,7 +647,7 @@ class KSYPlayerVC: UIViewController {
         }
     }
     
-    func onQuit(sender: NSObject) {
+    @objc func onQuit(sender: NSObject) {
         if let _ = player {
             player!.stop()
             player!.removeObserver(self, forKeyPath: "currentPlaybackTime", context: nil)
@@ -665,7 +665,7 @@ class KSYPlayerVC: UIViewController {
         msg?.text = nil
     }
 
-    func onRotate(sender: NSObject) {
+    @objc func onRotate(sender: NSObject) {
         guard let _ = player else {
             return
         }
@@ -677,7 +677,7 @@ class KSYPlayerVC: UIViewController {
         player!.rotateDegress = Int32(Int(rotate_degress))
     }
     
-    func onMute(sender: NSObject) {
+    @objc func onMute(sender: NSObject) {
         guard let _ = player else {
             return
         }
@@ -685,7 +685,7 @@ class KSYPlayerVC: UIViewController {
         player!.shouldMute = shouldMute!
     }
     
-    func onMirror(sender: NSObject) {
+    @objc func onMirror(sender: NSObject) {
         guard let _ = player else {
             return
         }
@@ -693,7 +693,7 @@ class KSYPlayerVC: UIViewController {
         player!.mirror = !player!.mirror
     }
     
-    func onContentMode(sender: NSObject) {
+    @objc func onContentMode(sender: NSObject) {
         if let _ = player {
             player!.scalingMode = MPMovieScalingMode(rawValue: content_mode)!
         }
@@ -760,30 +760,30 @@ class KSYPlayerVC: UIViewController {
         }
     }
     
-    func handleSwipeGesture(swip: UISwipeGestureRecognizer) {
+    @objc func handleSwipeGesture(swip: UISwipeGestureRecognizer) {
         switch swip.direction {
-        case UISwipeGestureRecognizerDirection.right:
+        case UISwipeGestureRecognizer.Direction.right:
             if let originalFrame = stat?.frame {
                 stat?.frame = CGRect.init(x: 0,
                                           y: originalFrame.origin.y,
                                           width: originalFrame.width,
                                           height: originalFrame.height)
             }
-        case UISwipeGestureRecognizerDirection.left:
+        case UISwipeGestureRecognizer.Direction.left:
             if let originalFrame = stat?.frame {
                 stat?.frame = CGRect.init(x: -originalFrame.size.width,
                                           y: originalFrame.origin.y,
                                           width: originalFrame.width,
                                           height: originalFrame.height)
             }
-        case UISwipeGestureRecognizerDirection.down:
+        case UISwipeGestureRecognizer.Direction.down:
             if let originalFrame = stat?.frame {
                 stat?.frame = CGRect.init(x: 0,
                                           y: originalFrame.origin.y,
                                           width: originalFrame.width,
                                           height: originalFrame.height)
             }
-        case UISwipeGestureRecognizerDirection.up:
+        case UISwipeGestureRecognizer.Direction.up:
             if let originalFrame = stat?.frame {
                 stat?.frame = CGRect.init(x: -originalFrame.size.width,
                                           y: originalFrame.origin.y,

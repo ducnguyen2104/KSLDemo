@@ -87,10 +87,10 @@ class KSYStateLableView: UILabel {
         let liveTime = KSYUIVC().timeFormatted(totalSeconds: Int(curState.timeSecond - startTime!))
         let uploadDateSize = KSYUIVC().sizeFormatted(kb: curState.uploadKByte)
         let stateUrl = "\(str.hostURL.absoluteString)\n"
-        let stateKbps = String.init(format: "实时码率(kbps)%4.1f\tA%4.1f\tV%4.1f\n", realTKbps, str.encodeAKbps, str.encodeVKbps)
-        let stateFps = String.init(format: "实时帧率(fps)%2.1f\t总上传:%@\n", encFps, uploadDateSize )
-        let stateDrop = String.init(format: "视频丢帧 %4d\t %2.1f%% \n", curState.droppedVFrames, dropPercent)
-        let netEvent = String.init(format: "网络事件计数 %d bad\t bw %d Raise\t %d drop\n", notGoodCnt!, bwRaiseCnt!, bwDropCnt!)
+        let stateKbps = String.init(format: "Real-time bit rate(kbps)%4.1f\tA%4.1f\tV%4.1f\n", realTKbps, str.encodeAKbps, str.encodeVKbps)
+        let stateFps = String.init(format: "Real-time frame rate(fps)%2.1f\t总上传:%@\n", encFps, uploadDateSize )
+        let stateDrop = String.init(format: "Video frame drop %4d\t %2.1f%% \n", curState.droppedVFrames, dropPercent)
+        let netEvent = String.init(format: "Network event count %d bad\t bw %d Raise\t %d drop\n", notGoodCnt!, bwRaiseCnt!, bwDropCnt!)
         let cup_use = String.init(format: "%@ \tcpu: %.2f mem: %.1fMB",liveTime, KSYHelper.cpu_usage(), KSYHelper.memory_usage())
         
         if let _ = text {
@@ -111,7 +111,7 @@ class KSYStateLableView: UILabel {
         let oldH: CGFloat = newRect.height
         
         let attributeText = NSAttributedString.init(string: text!,
-                                                    attributes: [NSFontAttributeName:self.font])
+                                                    attributes: [NSAttributedString.Key.font:self.font])
         
         
         newRect.size = CGSize.init(width: newRect.width, height: attributeText.boundingRect(with: newRect.size, options: .usesLineFragmentOrigin, context: nil).height)

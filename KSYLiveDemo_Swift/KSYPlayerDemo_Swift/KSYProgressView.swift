@@ -94,7 +94,7 @@ class KSYProgressView: UIView {
         slider?.frame = progressAreaFrame
     }
     
-    func dragSliderDidEnd() {
+    @objc func dragSliderDidEnd() {
         if let _ = dragingSliderCallback {
             dragingSliderCallback!(slider!.value)
         }

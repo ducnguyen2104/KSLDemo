@@ -659,7 +659,7 @@
 					};
 					C36493FA1E6E8CA600299E99 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = ZGJ54Q7R45;
+						DevelopmentTeam = 3C85WG52WY;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1116,17 +1116,17 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = ZGJ54Q7R45;
+				DEVELOPMENT_TEAM = 3C85WG52WY;
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = KSYLiveDemo_Swift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ksyun.KSYLiveDemo-Swift";
+				PRODUCT_BUNDLE_IDENTIFIER = "ducnv4.KSYLiveDemo-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/KSYLiveDemo_Swift/Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1139,15 +1139,15 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				DEVELOPMENT_TEAM = ZGJ54Q7R45;
+				DEVELOPMENT_TEAM = 3C85WG52WY;
 				INFOPLIST_FILE = KSYLiveDemo_Swift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ksyun.KSYLiveDemo-Swift";
+				PRODUCT_BUNDLE_IDENTIFIER = "ducnv4.KSYLiveDemo-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/KSYLiveDemo_Swift/Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

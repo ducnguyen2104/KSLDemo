@@ -45,28 +45,28 @@ class KSYFilterView: KSYUIView {
 
     override init(withParent pView: KSYUIView) {
         super.init(withParent: pView)
-        _effectNames = ["1 小清新", "2 靓丽", "3 甜美可人", "4 怀旧", "5 蓝调", "6 老照片"]
+        _effectNames = ["1 Small fresh", "2 Pretty", "3 Sweet and lovely", "4 Nostalgia", "5 Blues", "6 old photo"]
         _curEffectIdx = 1
         
-        // 修改美颜参数
-        filterParam1 = addSlider(name: "参数", from: 0, to: 100, initV: 50)
-        filterParam2 = addSlider(name: "美白", from: 0, to: 100, initV: 50)
-        filterParam3 = addSlider(name: "红润", from: 0, to: 100, initV: 50)
+        // Modify beauty parameters
+        filterParam1 = addSlider(name: "parameter", from: 0, to: 100, initV: 50)
+        filterParam2 = addSlider(name: "Whitening", from: 0, to: 100, initV: 50)
+        filterParam3 = addSlider(name: "rosy", from: 0, to: 100, initV: 50)
         filterParam2?.isHidden = true
         filterParam3?.isHidden = true
         
-        _lblSeg = addLabel(title: "滤镜")
-        filterGroupType = addSegCtrlWithItems(items: ["关", "旧美颜", "美颜pro", "红润美颜", "美颜特效"])
+        _lblSeg = addLabel(title: "Filter")
+        filterGroupType = addSegCtrlWithItems(items: ["Off", "Old beauty", "Beauty pro", "Ruddy Beauty", "Beauty effects"])
         filterGroupType?.selectedSegmentIndex = 1
         selectFilter(idx: 1)
         
-        lbPreviewFlip = addLabel(title: "预览镜像")
-        lbStreamFlip = addLabel(title: "推流镜像")
+        lbPreviewFlip = addLabel(title: "Preview mirror")
+        lbStreamFlip = addLabel(title: "Stream mirror")
         swPrevewFlip = addSwitch(on: false)
         swStreamFlip = addSwitch(on: false)
         
-        lbUiRotate = addLabel(title: "UI旋转")
-        lbStrRotate = addLabel(title: "推流旋转")
+        lbUiRotate = addLabel(title: "UI rotation")
+        lbStrRotate = addLabel(title: "Stream rotation")
         swUiRotate = addSwitch(on: false)
         swStrRotate = addSwitch(on: false)
         swStrRotate?.isEnabled = false
@@ -105,7 +105,7 @@ class KSYFilterView: KSYUIView {
     
     override func onSwitch(sender: AnyObject) {
         if sender as? NSObject == swUiRotate {
-            // 只有界面跟随设备旋转, 推流才能旋转
+            // Only when the interface rotates with the device, the push stream can rotate
             swStrRotate!.isEnabled = swUiRotate!.isOn
             if !swUiRotate!.isOn {
                 swUiRotate?.isOn = false
@@ -184,13 +184,13 @@ class KSYFilterView: KSYUIView {
         filterParam3?.isHidden = true
         effectPicker?.isHidden = true
         
-        // 标识当前被选择的滤镜
+        // Identifies the currently selected filter
         switch idx {
         case 0:
             curFilter = nil
             break
         case 1:
-            filterParam1?.nameL.text = "参数"
+            filterParam1?.nameL.text = "parameter"
             filterParam1?.isHidden = false
             curFilter = KSYGPUBeautifyExtFilter()
             break
@@ -199,7 +199,7 @@ class KSYFilterView: KSYUIView {
             filterParam1?.isHidden = false
             filterParam2?.isHidden = false
             filterParam3?.isHidden = false
-            filterParam1?.nameL.text = "磨皮"
+            filterParam1?.nameL.text = "Microdermabrasion"
             
             f.grindRatio = CGFloat(filterParam1!.normalValue)
             f.whitenRatio = CGFloat(filterParam2!.normalValue)
@@ -207,8 +207,8 @@ class KSYFilterView: KSYUIView {
             curFilter = f
             break
         case 3:
-            filterParam1?.nameL.text = "磨皮"
-            filterParam3?.nameL.text = "红润"
+            filterParam1?.nameL.text = "Microdermabrasion"
+            filterParam3?.nameL.text = "rosy"
             filterParam1?.isHidden = false
             filterParam2?.isHidden = false
             filterParam3?.isHidden = false
@@ -223,13 +223,13 @@ class KSYFilterView: KSYUIView {
             curFilter = bf
             break
         case 4:
-            filterParam1?.nameL.text = "磨皮"
-            filterParam3?.nameL.text = "特效"
+            filterParam1?.nameL.text = "Microdermabrasion"
+            filterParam3?.nameL.text = "Special effects"
             filterParam1?.isHidden = false
             filterParam2?.isHidden = false
             filterParam3?.isHidden = false
             effectPicker?.isHidden = false
-            // 构造美颜滤镜 和  特效滤镜
+            // Construct beauty filters and special effects filters
             let bf = KSYBeautifyFaceFilter()
             let sf = KSYBuildInSpecialEffects.init(idx: _curEffectIdx)
             bf?.grindRatio = CGFloat(filterParam1!.normalValue)
@@ -237,7 +237,7 @@ class KSYFilterView: KSYUIView {
             sf?.intensity = CGFloat(filterParam3!.normalValue)
             bf?.addTarget(sf)
             
-            // 用滤镜组 将 滤镜 串联成整体
+            // Use the filter set to concatenate the filters into a whole
             let fg = GPUImageFilterGroup()
             fg.addFilter(bf)
             fg.addFilter(sf)
@@ -258,7 +258,7 @@ class KSYFilterView: KSYUIView {
 extension KSYFilterView: UIPickerViewDataSource, UIPickerViewDelegate{
 
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1    // 单列
+        return 1    // Single row
     }
 
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {

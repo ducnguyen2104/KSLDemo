@@ -9,43 +9,43 @@
 import UIKit
 
 /**
- KSY 推流SDK的主要演示视图
- 
- 主要演示了SDK 提供的API的基本使用方法
+ The main demo view of KSY Push Streaming SDK
+  
+ Mainly demonstrates the basic usage of the API provided by the SDK
  */
 
-// 为防止将手机存储写满,限制录像时长为30s
-let REC_MAX_TIME = 30   //录制视频的最大时间，单位s
+// In order to prevent the phone storage from being full, limit the recording time to 30s
+let REC_MAX_TIME = 30   //Maximum time for recording video, unit s
 
 
 class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var bAutoStart: Bool = false
     var presetCfgView: KSYPresetCfgView?
     
-    var ctrlView: KSYCtrlView?          /// 摄像头的基本控制视图
+    var ctrlView: KSYCtrlView?          /// Basic control view of the camera
     var menuNames: [String]?
-    var ksyBgmView: KSYBgmView?         /// 背景音乐配置页面
-    var ksyFilterView: KSYFilterView?   /// 视频滤镜相关参数配置页面
-    var audioView: KSYAudioCtrlView?    /// 声音配置页面
-    var miscView: KSYMiscView?          /// 其他功能配置页面
+    var ksyBgmView: KSYBgmView?         /// Background music configuration page
+    var ksyFilterView: KSYFilterView?   /// Video filter related parameter configuration page
+    var audioView: KSYAudioCtrlView?    /// Sound configuration page
+    var miscView: KSYMiscView?          /// Other function configuration page
     
     var kit: KSYGPUStreamerKit?
     
-    var hostURL: NSURL?                  /// 推流地址 完整的URL
+    var hostURL: NSURL?                  /// Streaming URL Full URL
     
     private
     var _swipeGest: UISwipeGestureRecognizer?
     var _dateFormatter: DateFormatter?
 //    var _obsDict: [Selector: Notification]?
-    var _strSeconds: Int = 0                    // 推流持续的时间 , 单位s
+    var _strSeconds: Int = 0                    // Push stream duration, unit s
     
-    // 旁路录制:一边推流到rtmp server, 一边录像到本地文件
-    // 本地录制:直接存储到本地
-    var _bRecord: Bool? = false              //是推流还是录制到本地
-    var _bypassRecFile: String?              // 旁路录制
+    // Bypass recording: while pushing the stream to the rtmp server, while recording to a local file
+    // Local recording: directly store to local
+    var _bRecord: Bool? = false              // Whether to push the stream or record to the local
+    var _bypassRecFile: String?              // Bypass recording
     
-    var _foucsCursor: UIImageView?           //对焦框
-    var _currentPinchZoomFactor: CGFloat?     //当前触摸缩放因子
+    var _foucsCursor: UIImageView?           // Focus frame
+    var _currentPinchZoomFactor: CGFloat?    // Current touch zoom factor
     
 //    override init() {
 //        super.init()
@@ -56,14 +56,14 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
     }
     
     /**
-     @abstract   构造函数
-     @param      presetCfgView    含有用户配置的启动参数的视图 (前一个页面)
-     @discussion presetCfgView 为nil时, 使用默认参数
+     @abstract   Constructor
+     @param      presetCfgView  View with startup parameters configured by the user (previous page)
+     @discussion presetCfgView When nil, use default parameters
      */
     init(Cfg presetCfgView: KSYPresetCfgView) {
         super.init()
         self.presetCfgView = presetCfgView
-        menuNames = ["背景音乐", "图像/美颜", "声音", "其他"]
+        menuNames = ["Bg music", "Img/Beauty", "Sound", "Other"]
         view.backgroundColor = .white
     }
     
@@ -83,16 +83,16 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
             kit?.streamerProfile = KSYStreamerProfile(rawValue: presetCfgView!.curProfileIdx)!
         }
         
-        // 采集相关设置初始化
+        // Initialization of collection related settings
         setCaptureCfg()
-        //推流相关设置初始化
+        // Push streaming related settings initialization
         setStreamerCfg()
-        // 打印版本号信息
+        // Print version number information
         print("version: \(kit?.getKSYVersion())")
         
         if kit != nil {
             kit?.videoOrientation = UIApplication.shared.statusBarOrientation
-            kit?.setupFilter(ksyFilterView!.curFilter)
+            kit?.setupFilter(ksyFilterView?.curFilter  as? (GPUImageOutput & GPUImageInput))
             kit?.startPreview(view)
         }
         setupLogo()
@@ -197,8 +197,8 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         NotificationCenter.default.addObserver(self, selector: #selector(onStreamStateChange(not:)), name: NSNotification.Name.KSYStreamStateDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onNetStateEvent(not:)), name: NSNotification.Name.KSYNetStateEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onBgmPlayerStateChange(not:)), name: NSNotification.Name.KSYAudioStateDidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(enterBg(not:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(becameActive(not:)), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(enterBg(not:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(becameActive(not:)), name: UIApplication.didBecomeActiveNotification, object: nil)
         
         
     }
@@ -208,11 +208,11 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         NotificationCenter.default.removeObserver(self)
     }
 
-    func enterBg(not: Notification) {
+    @objc func enterBg(not: Notification) {
         kit?.appEnterBackground()
     }
     
-    func becameActive(not: Notification) {
+    @objc func becameActive(not: Notification) {
         kit?.appBecomeActive()
     }
     
@@ -236,12 +236,12 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
     
     func setupLogo() {
         var yPos: CGFloat = 0.05
-        let hgt: CGFloat = 0.1  // logo图片的高度是预览画面的十分之一
+        let hgt: CGFloat = 0.1  // The height of the logo image is one-tenth of the preview image
         
         let logoFile = NSHomeDirectory().appending("/Documents/ksvc.png")
         if FileManager.default.fileExists(atPath: logoFile) {
             let url = NSURL.init(fileURLWithPath: logoFile)
-            kit?.logoPic = KSYGPUPicture.init(url: url as URL!)
+            kit?.logoPic = KSYGPUPicture.init(url: url as URL?)
             kit?.logoRect = CGRect.init(x: 0.05, y: yPos, width: 0, height: hgt)
             kit?.logoAlpha = 0.5
             yPos += hgt
@@ -266,7 +266,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         if appState != .active {
             return
         }
-        // 将当前时间显示在左上角
+        // Display the current time in the upper left corner
         let now = Date()
         let timeStr = _dateFormatter!.string(from: now)
         kit?.textLabel.text = "ksyun\n\(timeStr)"
@@ -275,7 +275,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
     
     // MARK: - Capture & stream setup
     func setCustomizeCfg() {
-        kit?.capPreset = presetCfgView!.capResolution() as NSString!
+        kit?.capPreset = presetCfgView!.capResolution() as NSString?
         kit?.previewDimension = presetCfgView!.capResolutionSize()
         kit?.streamDimension = presetCfgView!.strResolutionSize()
         kit?.videoFPS = Int32(presetCfgView!.frameRate())
@@ -292,17 +292,17 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         kit?.gpuOutputPixelFormat = presetCfgView!.gpuOutputPixelFmt()
         kit?.capturePixelFormat = presetCfgView!.gpuOutputPixelFmt()
         kit?.videoProcessingCallback = { (buf) -> Void in
-            // 在此处添加自定义图像处理, 直接修改buf中的图像数据会传递到观众端
-            // 或复制图像数据之后再做其他处理, 则观众端仍然看到处理前的图像
+            // Add custom image processing here, directly modify the image data in buf and pass it to the audience
+            // Or copy the image data and then do other processing, the audience will still see the image before processing
         }
         
         kit?.audioProcessingCallback = { (buf) -> Void in
-            // 在此处添加自定义音频处理, 直接修改buf中的pcm数据会传递到观众端
-            // 或复制音频数据之后再做其他处理, 则观众端仍然听到原始声音
+            // Add custom audio processing here, directly modify the pcm data in buf and pass it to the audience
+            // Or copy the audio data and then do other processing, the audience will still hear the original sound
         }
         
         kit?.interruptCallback = { (bInterrupt) -> Void in
-            // 在此处添加自定义图像采集被打断的处理 (比如接听电话等)
+            // Add here the processing of interrupted custom image capture (such as answering a phone call, etc.)
         }
     }
     
@@ -318,10 +318,10 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         kit?.streamerBase.logBlock = { (str) -> Void in
             print(str ?? "")
         }
-        hostURL = NSURL.init(string: "rtmp://mobile.kscvbu.cn/live/123")
+        hostURL = NSURL.init(string: "rtmp://192.168.1.122/live/123")
     }
     
-    // 推流的参数设置 must set after capture
+    // Push streaming parameter settings must set after capture
     func setStreamerCfg() {
         guard let _ = kit?.streamerBase else {
             return
@@ -353,10 +353,10 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         miscView?.autoReconnect?.slider.isEnabled = !bStart
         kit?.maxAutoRetry = Int32(Int(miscView!.autoReconnect!.slider.value))
         
-        //判断是直播还是录制
+        //Determine whether to live or record
         let title = (ctrlView?.btnStream?.currentTitle)!
-        _bRecord = (title == "开始录制")
-        miscView?.swBypassRec?.isEnabled = !_bRecord! // 直接录制时, 不能旁路录制
+        _bRecord = (title == "Start recording")
+        miscView?.swBypassRec?.isEnabled = !_bRecord! // When recording directly, you cannot bypass recording
         
         if _bRecord! && bStart {
             deleteFile(file: presetCfgView!.hostUrl()!)
@@ -364,12 +364,12 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
     }
     
     // MARK: - state change
-    func onCaptureStateChange(not: Notification) {
+    @objc func onCaptureStateChange(not: Notification) {
         print("new capStat: \(kit?.getCurCaptureStateName())")
         ctrlView?.lblStat?.text = kit?.getCurCaptureStateName()
     }
 
-    func onNetStateEvent(not: Notification) {
+    @objc func onNetStateEvent(not: Notification) {
         if let _ = kit {
             switch kit!.streamerBase.netStateCode {
             case KSYNetStateCode.SEND_PACKET_SLOW:
@@ -387,7 +387,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         }
     }
     
-    func onBgmPlayerStateChange(not: Notification) {
+    @objc func onBgmPlayerStateChange(not: Notification) {
         let st = kit?.bgmPlayer.getCurBgmStateName()
         if let s = st {
             let status = (s as NSString).substring(from: 17)
@@ -395,7 +395,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         }
     }
     
-    func onStreamStateChange(not: Notification) {
+    @objc func onStreamStateChange(not: Notification) {
         if kit?.streamerBase != nil {
             print("stream State \(kit!.streamerBase.getCurStreamStateName() ?? "")")
         }
@@ -410,13 +410,13 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
                 kit?.streamerBase.bWithVideo = false
             }
         }
-        //状态为KSYStreamStateIdle且_bRecord为ture时，录制视频
+        // When the state is KSYStreamStateIdle and _bRecord is ture, record the video
         if kit?.streamerBase.streamState == .idle && _bRecord! {
             saveVideoToAlbum(path: (presetCfgView?.hostUrl())!)
         }
     }
     
-    //保存视频到相簿
+    // Save video to album
     func saveVideoToAlbum(path: String) {
         if !FileManager.default.fileExists(atPath: path) {
             return
@@ -429,8 +429,8 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         }
     }
     
-    //保存mp4文件完成时的回调
-    func videoDidFinishedSaving(videoPath: String, error: Error?, contextInfo: UnsafeMutableRawPointer?) {
+    // Callback when saving mp4 file is complete
+    @objc func videoDidFinishedSaving(videoPath: String, error: Error?, contextInfo: UnsafeMutableRawPointer?) {
         let msg: String
         if error == nil {
             msg = "Save album success!"
@@ -462,7 +462,10 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) { [weak self] in
             print("try again")
             self?.updateStreamCfg(bStart: true)
-            self?.kit?.streamerBase.startStream(self?.hostURL as! URL)
+            if let hostURL = self?.hostURL as? URL {
+                self?.kit?.streamerBase.startStream(hostURL)
+            }
+            
         }
     }
     
@@ -487,8 +490,8 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         }
         _strSeconds += 1
         updateLogoText()
-        updateRecLabel()        // 本地录制:直接存储到本地, 不推流
-        updateBypassRecLable()  // 旁路录制:一边推流一边录像
+        updateRecLabel()        // Local recording: store directly to the local, without streaming
+        updateBypassRecLable()  // Bypass recording: video while streaming
     }
     
     // MARK: - UI respond
@@ -515,11 +518,11 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         if let _ = ctrlView {
             if let _ = ctrlView!.menuBtns {
                 if btn == (ctrlView!.menuBtns![0]) {
-                    view = ksyBgmView       // 背景音乐播放相关
+                    view = ksyBgmView       // Background music playback related
                 }else if btn == (ctrlView!.menuBtns![1]) {
-                    view = ksyFilterView    // 美颜滤镜相关
+                    view = ksyFilterView    // Beauty filter related
                 }else if btn == (ctrlView!.menuBtns![2]) {
-                    view = audioView        // 混音控制台
+                    view = audioView        // Mixing console
                     audioView?.micType = AVAudioSession.sharedInstance().currentMicType
                     audioView?.initMicInput()
                 }else if btn == (ctrlView!.menuBtns![3]) {
@@ -533,7 +536,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         }
     }
     
-    func swipeController(swipGes: UISwipeGestureRecognizer) {
+    @objc func swipeController(swipGes: UISwipeGestureRecognizer) {
         if swipGes == _swipeGest {
             var rect = view.frame
             if rect.equalTo(ctrlView!.frame) {
@@ -579,7 +582,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
             _ = ksyBgmView?.previousBgmPath()
             playNextBgm()
         }else if btn == ksyBgmView?.muteBtn {
-            // 仅仅是静音了本地播放, 推流中仍然有音乐
+            // Just muted the local playback, there is still music in the push stream
             kit?.bgmPlayer.bMuteBgmPlay = !(kit?.bgmPlayer.bMuteBgmPlay)!
         }
     }
@@ -606,7 +609,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         }
     }
     
-    // 背景音乐音量调节
+    // Background music volume adjustment
     func onBgmVolume(sl: UIView) {
         if sl == ksyBgmView?.volumSl {
             kit?.bgmPlayer.bgmVolume = Double((ksyBgmView?.volumSl?.normalValue)!)
@@ -621,7 +624,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
     func onCameraToggle() {
         kit?.switchCamera()
         if let _ = kit?.vCapDev {
-            if kit?.vCapDev!.cameraPosition() == AVCaptureDevicePosition.back {
+            if kit?.vCapDev!.cameraPosition() == AVCaptureDevice.Position.back {
                 ctrlView?.btnFlash?.isEnabled = true
             }else{
                 ctrlView?.btnFlash?.isEnabled = false
@@ -645,7 +648,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         if kit?.streamerBase.streamState == KSYStreamState.idle ||
             kit?.streamerBase.streamState == KSYStreamState.error {
             updateStreamCfg(bStart: true)
-            kit?.streamerBase.startStream(hostURL! as URL!)
+            kit?.streamerBase.startStream(hostURL! as URL?)
         }else{
             updateStreamCfg(bStart: false)
             kit?.streamerBase.stopStream()
@@ -662,7 +665,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
     // MARK: - UI respond : gpu filters
     func onFilterChange(sender: AnyObject) {
         if ksyFilterView?.curFilter != kit?.filter {
-            kit?.setupFilter(ksyFilterView?.curFilter)
+            kit?.setupFilter(ksyFilterView?.curFilter as? (GPUImageOutput & GPUImageInput))
         }
     }
     
@@ -682,11 +685,11 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
     // MARK: - UI respond : audio ctrl
     func onAMixerSwitch(sw: UISwitch) {
         if sw == audioView?.muteStream {
-        // 静音推流(发送音量为0的数据)
+        // Mute push (send data with volume 0)
             let mute = audioView?.muteStream?.isOn
             kit?.streamerBase.muteStream(mute ?? false)
         }else if sw == audioView?.bgmMix {
-            // 背景音乐 是否 参与混音
+            // Background music participate in mixing
             kit?.aMixer.setTrack((kit?.bgmTrack)!, enable: sw.isOn)
         }else if sw == audioView?.swAudioOnly && kit?.streamerBase != nil {
             if kit?.streamerBase.isStreaming() ?? false {
@@ -695,7 +698,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
             }
         }else if sw == audioView?.swPlayCapture {
             if !KSYAUAudioCapture.isHeadsetPluggedIn() {
-                KSYUIVC().toast(message: "没有耳机, 开启耳返会有刺耳的声音", duration: 0.3)
+                KSYUIVC().toast(message: "Without headphones, there will be a harsh sound when the ear return is turned on", duration: 1)
                 sw.isOn = false
                 kit?.aCapDev.bPlayCapturedAudio = false
                 return
@@ -737,14 +740,14 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
     
     // MARK: - misc features
     func onMiscBtns(sender: AnyObject) {
-        // 截图的三种方法:
+        // Three ways to take screenshots:
         if sender as! NSObject == (miscView?.btn0)! {
-            // 方法1: 开始预览后, 从streamer 直接将待编码的图片存为本地的文件
+            // Method 1: After starting the preview, directly save the image to be encoded as a local file from the streamer
             let path = "snapshot/c.jpg"
             kit?.streamerBase.takePhoto(withQuality: 1, fileName: path)
             print("Snapshot save to \(path)")
         }else if sender as! NSObject == (miscView?.btn1)! {
-            // 方法2: 开始预览后, 从streamer获取UIImage对象
+            // Method 2: After starting the preview, get the UIImage object from the streamer
             kit?.streamerBase.getSnapshotWithCompletion({ (img) in
                 if let _ = img {
                     KSYUIVC.saveImage(image: img!, path: "snap1.png")
@@ -752,7 +755,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
                 }
             })
         }else if sender as! NSObject == (miscView?.btn2)! {
-            // 方法3: 如果有美颜滤镜, 可以从滤镜上获取截图(UIImage)
+            // Method 3: If there is a beauty filter, you can get a screenshot from the filter (UIImage)
             let filter = ksyFilterView?.curFilter
             if filter != nil {
                 filter!.useNextFrameForImageCapture()
@@ -764,12 +767,12 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
             }
         }else if sender as? NSObject == miscView?.btn3 {
             let picker = UIImagePickerController()
-            picker.sourceType = UIImagePickerControllerSourceType.savedPhotosAlbum
+            picker.sourceType = UIImagePickerController.SourceType.savedPhotosAlbum
             picker.delegate = self
             present(picker, animated: true, completion: nil)
         }else if sender as? NSObject == miscView?.btn4 {
             let picker = UIImagePickerController()
-            picker.sourceType = UIImagePickerControllerSourceType.camera
+            picker.sourceType = UIImagePickerController.SourceType.camera
             picker.delegate = self
             present(picker, animated: true, completion: nil)
         }
@@ -806,11 +809,11 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
     }
     
     // MARK: UIImagePickerControllerDelegate
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        //显示的图片
-        if let image = info[UIImagePickerControllerOriginalImage] {
-            kit?.logoPic = KSYGPUPicture.init(image: image as! UIImage, smoothlyScaleOutput: true)
+        //Picture shown
+        if let image = info[UIImagePickerController.InfoKey.originalImage] {
+            kit?.logoPic = KSYGPUPicture.init(image: image as? UIImage, smoothlyScaleOutput: true)
             picker.dismiss(animated: true, completion: nil)
         }
         
@@ -858,13 +861,13 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         let bRec = (kit?.streamerBase.bypassRecordState == KSYRecordState.recording)
         if (miscView?.swBypassRec?.isOn)! {
             if (kit?.streamerBase.isStreaming())! && !bRec {
-                // 如果启动录像时使用和上次相同的路径,则会覆盖掉上一次录像的文件内容
+                // If the same path as the last time is used when starting the recording, the file content of the last recording will be overwritten
                 deleteFile(file: _bypassRecFile!)
                 let url: URL = URL.init(fileURLWithPath: _bypassRecFile!)
                 kit?.streamerBase.startBypassRecord(url)
                 updateBypassRecLable()
             }else {
-                let msg = "推流过程中才能旁路录像"
+                let msg = "The video can be bypassed during the streaming process"
                 KSYUIVC().toast(message: msg, duration: 1)
                 miscView?.swBypassRec?.isOn = false
             }
@@ -881,22 +884,22 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         let dur: Double = kit?.streamerBase.bypassRecordDuration ?? 0
         let durStr = String.init(format: "%3.0fs/%ds", dur,REC_MAX_TIME)
         miscView?.lblRecDur?.text = durStr
-        if dur > Double(REC_MAX_TIME) {  // 为防止将手机存储写满,限制旁路录像时长为30s
+        if dur > Double(REC_MAX_TIME) {  // In order to prevent the phone storage from being full, limit the bypass recording time to 30s
             miscView?.swBypassRec?.isOn = false
             kit?.streamerBase.stopBypassRecord()
         }
     }
     
     func updateRecLabel() {
-        if !_bRecord! {  // 直接录制短视频
+        if !_bRecord! {  // Record short video directly
             return
         }
         let diff = REC_MAX_TIME - _strSeconds
-        //保持连接和限制短视频长度
+        // Stay connected and limit short video length
         if (kit?.streamerBase.isStreaming())! && diff < 0 {
-            onStream() // 结束录制
+            onStream() // End recording
         }
-        if (kit?.streamerBase.isStreaming())! { //录制时的倒计时时间
+        if (kit?.streamerBase.isStreaming())! { // Countdown time during recording
             let durMsg = "\(diff)s\n"
             ctrlView?.lblNetwork?.text = durMsg
         }else{
@@ -904,7 +907,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         }
     }
 
-    //删除文件,保证保存到相册里面的视频时间是更新的
+    // Delete the file to ensure that the video time saved in the album is updated
     func deleteFile(file: String) {
         if FileManager.default.fileExists(atPath: file) {
             do {
@@ -916,7 +919,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
     }
     
     /**
-     @abstract 将UI的坐标转换成相机坐标
+     @abstract Convert UI coordinates to camera coordinates
      */
     func convertToPointOfInterestFromViewCoordinates(viewCoordinates: CGPoint) -> CGPoint {
         var pointOfInterest = CGPoint.init(x: 0.5, y: 0.5)
@@ -938,7 +941,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
             let blackBar = (x1 - x2) / 2
             if point.x >= blackBar && point.x <= blackBar + x2 {
                 
-                xc = point.y.divided(by: y2)
+                xc = point.y / y2
                 yc = CGFloat(1.0) - ((point.x - blackBar) / x2)
             }
         }else{
@@ -956,7 +959,7 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         return pointOfInterest
     }
     
-    //设置摄像头对焦位置
+    // Set the camera focus position
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         let current = touch?.location(in: view)
@@ -974,17 +977,17 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
         }
     }
     
-    //添加缩放手势，缩放时镜头放大或缩小
+    // Add zoom gesture, the lens zooms in or out when zooming
     func addPinchGestureRecognizer() {
         let pinch = UIPinchGestureRecognizer.init(target: self, action: #selector(pinchDetected(rec:)))
         view.addGestureRecognizer(pinch)
     }
     
-    func pinchDetected(rec: UIPinchGestureRecognizer) {
+    @objc func pinchDetected(rec: UIPinchGestureRecognizer) {
         if rec.state == .began {
             _currentPinchZoomFactor = kit?.pinchZoomFactor
         }
-        let zoomFactor = _currentPinchZoomFactor! * rec.scale    //当前触摸缩放因子*坐标比例
+        let zoomFactor = _currentPinchZoomFactor! * rec.scale    // Current touch zoom factor * coordinate scale
         kit?.pinchZoomFactor = zoomFactor
     }
     

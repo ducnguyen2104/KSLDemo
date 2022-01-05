@@ -71,21 +71,21 @@ class KSYPresetCfgView: KSYUIView, UIImagePickerControllerDelegate, UINavigation
         let url = "\(rtmpSrv)/\(devCode)"
         
         hostUrlUI = addTextField(text: url)
-        doneBtn = addButton(title: "ok")
-        btn0 = addButton(title: "开始直播")
-        btn1 = addButton(title: "画中画直播")
+        doneBtn = addButton(title: "Ok")
+        btn0 = addButton(title: "Start live broadcast")
+        btn1 = addButton(title: "Picture in Picture Live")
 //#ifdef KSYSTREAMER_DEMO
 //        btn2 = addButton(title "forTest);
 //#else
-        btn2 = addButton(title: "返回")
+        btn2 = addButton(title: "Back")
 //#endif
         
-        lblCameraPosUI = addLabel(title: "摄像头")
-        cameraPosUI = addSegCtrlWithItems(items: ["前置", "后置"])
-        lblGpuPixFmtUI = addLabel(title: "像素格式")
+        lblCameraPosUI = addLabel(title: "Camera")
+        cameraPosUI = addSegCtrlWithItems(items: ["Front", "Rear"])
+        lblGpuPixFmtUI = addLabel(title: "Pixel format")
         gpuPixFmtUI = addSegCtrlWithItems(items: ["rgba", "nv12"])
-        lblProfileUI = addLabel(title: "配置")
-        profileUI = addSegCtrlWithItems(items: ["预设等级", "自定义"])
+        lblProfileUI = addLabel(title: "Config")
+        profileUI = addSegCtrlWithItems(items: ["Preset level", "custom"])
         profileUI?.selectedSegmentIndex = 0
         _profileNames = ["360p_1","360p_2","360p_3","360p_auto",
                          "540p_1","540p_2","540p_3","540p_auto",
@@ -93,8 +93,8 @@ class KSYPresetCfgView: KSYUIView, UIImagePickerControllerDelegate, UINavigation
         
         let screenRect = UIScreen.main.bounds
         let ratio = screenRect.width / screenRect.size.height
-        lblResolutionUI = addLabel(title: "采集分辨率")
-        lblStreamResoUI = addLabel(title: "推流分辨率")
+        lblResolutionUI = addLabel(title: "Acquisition resolution")
+        lblStreamResoUI = addLabel(title: "Push stream resolution")
         
         resolutionUI = addSegCtrlWithItems(items: ["360p", "540p", "720p", "480p"])
         streamResoUI = addSegCtrlWithItems(items: ["360p", "540p", "720p", "480p", "400"])
@@ -108,20 +108,20 @@ class KSYPresetCfgView: KSYUIView, UIImagePickerControllerDelegate, UINavigation
         }
         
         
-        frameRateUI = addSlider(name: "视频帧率fps", from: 1.0, to: 30.0, initV: 15.0)
-        lblVideoCodecUI = addLabel(title: "视频编码器")
-        videoCodecUI = addSegCtrlWithItems(items: ["自动", "软264", "硬264", "软265"])
-        lblAudioCodecUI = addLabel(title: "音频编码器")
+        frameRateUI = addSlider(name: "Video frame rate fps", from: 1.0, to: 30.0, initV: 15.0)
+        lblVideoCodecUI = addLabel(title: "Video encoder")
+        videoCodecUI = addSegCtrlWithItems(items: ["Auto", "soft264", "hard264", "soft265"])
+        lblAudioCodecUI = addLabel(title: "Audio encoder")
         
-        audioCodecUI = addSegCtrlWithItems(items: ["软AAC-HE","软AAC-LC","硬AAC-LC"])
-        videoKbpsUI = addSlider(name: "视频码率kbps", from: 100.0, to: 1500.0, initV: 800.0)
-        lblAudioKbpsUI = addLabel(title: "音频码率")
+        audioCodecUI = addSegCtrlWithItems(items: ["softAAC-HE","softAAC-LC","hardAAC-LC"])
+        videoKbpsUI = addSlider(name: "Video bitrate kbps", from: 100.0, to: 1500.0, initV: 800.0)
+        lblAudioKbpsUI = addLabel(title: "Audio bit rate")
         audioKbpsUI = addSegCtrlWithItems(items: ["12", "24", "32", "48", "64", "128"])
         
         audioKbpsUI?.selectedSegmentIndex = 2
-        lblBwEstMode = addLabel(title: "带宽估计模式")
-        bwEstModeUI = addSegCtrlWithItems(items: ["默认", "流畅", "关闭"])
-        demoLable = addLabel(title: "选择demo开始")
+        lblBwEstMode = addLabel(title: "Bandwidth estimation mode")
+        bwEstModeUI = addSegCtrlWithItems(items: ["Default", "Smooth", "Off"])
+        demoLable = addLabel(title: "Select demo to start")
         demoLable?.textAlignment = .center
         
         profilePicker = UIPickerView()
@@ -176,7 +176,7 @@ class KSYPresetCfgView: KSYUIView, UIImagePickerControllerDelegate, UINavigation
         
         putRow1(subV: demoLable)
         
-        //剩余空间全部用来放按钮
+        //The remaining space is all used for buttons
         let yPos = self.yPos > height ? self.yPos - height : self.yPos
         btnH = height - yPos - gap * 2
         putRow(subV: [btn0!, btn1! , btn2!])
@@ -192,15 +192,15 @@ class KSYPresetCfgView: KSYUIView, UIImagePickerControllerDelegate, UINavigation
         let idx = resolutionUI!.selectedSegmentIndex
         switch idx {
         case 0:
-            return AVCaptureSessionPreset640x480
+            return AVCaptureSession.Preset.vga640x480.rawValue
         case 1:
-            return AVCaptureSessionPresetiFrame960x540
+            return AVCaptureSession.Preset.iFrame960x540.rawValue
         case 2:
-            return AVCaptureSessionPreset1280x720
+            return AVCaptureSession.Preset.hd1280x720.rawValue
         case 3:
-            return AVCaptureSessionPreset640x480
+            return AVCaptureSession.Preset.vga640x480.rawValue
         default:
-            return AVCaptureSessionPreset640x480
+            return AVCaptureSession.Preset.vga640x480.rawValue
         }
     }
     
@@ -229,7 +229,7 @@ class KSYPresetCfgView: KSYUIView, UIImagePickerControllerDelegate, UINavigation
         }
     }
     
-    func cameraPos() -> AVCaptureDevicePosition {
+    func cameraPos() -> AVCaptureDevice.Position {
         switch cameraPosUI!.selectedSegmentIndex {
         case 0:
             return .front
@@ -351,7 +351,7 @@ class KSYPresetCfgView: KSYUIView, UIImagePickerControllerDelegate, UINavigation
         if idx == 0 {
             profilePicker?.isHidden = false
             getStreamerProfile(profile: KSYStreamerProfile(rawValue: curProfileIdx)!)
-            btn0?.setTitle("预设配置直播", for: .normal)
+            btn0?.setTitle("Live broadcast with preset config", for: .normal)
         }else{
             lblResolutionUI?.isHidden = false
             resolutionUI?.isHidden = false
@@ -367,13 +367,13 @@ class KSYPresetCfgView: KSYUIView, UIImagePickerControllerDelegate, UINavigation
             audioKbpsUI?.isHidden = false
             lblBwEstMode?.isHidden = false
             bwEstModeUI?.isHidden = false
-            btn0?.setTitle("自定义配置直播", for: .normal)
+            btn0?.setTitle("Custom config live broadcast", for: .normal)
         }
         layoutUI()
     }
     
     
-    ///获取采集和推流配置参数
+    ///Get collection and push streaming configuration parameters
     func getStreamerProfile(profile: KSYStreamerProfile) {
         switch profile {
         case ._360p_1:

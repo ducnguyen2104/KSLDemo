@@ -89,7 +89,7 @@ class KSYUIVC: UIViewController {
     
     }
     
-    func networkChange() {
+    @objc func networkChange() {
         let currentStatus = _reach!.currentReachabilityStatus()
         if currentStatus == _preStatue {
             return
@@ -98,10 +98,10 @@ class KSYUIVC: UIViewController {
         _preStatue = currentStatus
         switch currentStatus {
         case .NotReachable:
-            networkStatus = "无网络"
+            networkStatus = "No network"
             break
         case .ReachableViaWWAN:
-            networkStatus = "移动网络"
+            networkStatus = "mobile network"
             break
         case .ReachableViaWiFi:
             networkStatus = "WIFI"
@@ -138,7 +138,7 @@ class KSYUIVC: UIViewController {
     }
     
     // 定时更新调试信息 // 每秒重复调用
-    public func onTimer(timer: Timer){
+    @objc public func onTimer(timer: Timer){
         
     }
     
@@ -283,7 +283,7 @@ class KSYUIVC: UIViewController {
     class func saveImage(image: UIImage, path: String) {
         let dir = NSHomeDirectory().appending("/Documents/")
         let file = (dir as NSString).appendingPathComponent(path)
-        let imageData = UIImagePNGRepresentation(image)
+        let imageData = image.pngData()
         var ret = false
         if let _ = imageData {
             ret = (imageData! as NSData).write(toFile: file, atomically: true)
@@ -296,7 +296,7 @@ class KSYUIVC: UIViewController {
         return super.shouldAutorotate
     }
 
-    override func transition(from fromViewController: UIViewController, to toViewController: UIViewController, duration: TimeInterval, options: UIViewAnimationOptions = [], animations: (() -> Void)?, completion: ((Bool) -> Void)? = nil) {
+    override func transition(from fromViewController: UIViewController, to toViewController: UIViewController, duration: TimeInterval, options: UIView.AnimationOptions = [], animations: (() -> Void)?, completion: ((Bool) -> Void)? = nil) {
         layoutUI()
     }
     

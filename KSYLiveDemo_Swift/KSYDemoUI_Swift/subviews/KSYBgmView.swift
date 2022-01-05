@@ -20,7 +20,7 @@ class KSYBgmView: KSYUIView {
     var muteBtn: UIButton?
     var loopType: UISegmentedControl?
     
-    var bgmPath: String?        /// 当前播放的背景音乐的路径
+    var bgmPath: String?        /// The path of the currently playing background music
     var _bgmStatus: String?
     var bgmStatus: String?{      /// bgmStatus string
         get{
@@ -40,23 +40,23 @@ class KSYBgmView: KSYUIView {
     
     override init(withParent pView: KSYUIView) {
         super.init(withParent: pView)
-        _bgmTitle = addLabel(title: "背景音乐地址 Documents/bgms")
+        _bgmTitle = addLabel(title: "Background music address Documents/bgms")
         progressV = UIProgressView()
         addSubview(progressV!)
-        previousBtn = addButton(title: "上一首")
-        playBtn = addButton(title: "播放")
-        pauseBtn = addButton(title: "暂停")
-        stopBtn = addButton(title: "停止")
-        volumSl = addSlider(name: "主播端音量", from: 0, to: 100, initV: 50)
+        previousBtn = addButton(title: "Prev")
+        playBtn = addButton(title: "Play")
+        pauseBtn = addButton(title: "pause")
+        stopBtn = addButton(title: "stop")
+        volumSl = addSlider(name: "Host volume", from: 0, to: 100, initV: 50)
         volumSl?.slider.value = 50
-        nextBtn = addButton(title: "下一首")
+        nextBtn = addButton(title: "next")
         _bgmStatus = "idle"
         bgmPattern = [".mp3", ".m4a", ".aac"]
         _bgmSel = KSYFileSelector.init(dir: "/Documents/bgms/",
                                        suf: bgmPattern!)
         bgmPath = _bgmSel?.filePath
         _cnt = _bgmSel!.fileList!.count
-        loopType = addSegCtrlWithItems(items: ["单曲播放", "单曲循环", "随机播放","循环播放"])
+        loopType = addSegCtrlWithItems(items: ["Single play", "Single cycle", "Shuffle Playback", "Loop"])
         loopType?.selectedSegmentIndex = 4
     }
     

@@ -58,13 +58,13 @@ class KSYRecordVC: UIViewController {
         videoView.backgroundColor = .white
         view.addSubview(videoView)
         
-        btnPlay = addButton(with: "播放", action: #selector(onPlayVideo(sender:)))
-        btnPause = addButton(with: "暂停", action: #selector(onPauseVideo(sender:)))
-        btnResume = addButton(with: "继续", action: #selector(onResumeVideo(sender:)))
-        btnStop = addButton(with: "停止", action: #selector(onStopVideo(sender:)))
-        btnQuit = addButton(with: "退出", action: #selector(onQuit(sender:)))
-        btnStartRecord = addButton(with: "开始录屏", action: #selector(onStartRecordVideo(sender:)))
-        btnStopRecord = addButton(with: "停止录屏", action: #selector(onStopRecordVideo(sender:)))
+        btnPlay = addButton(with: "Play", action: #selector(onPlayVideo(sender:)))
+        btnPause = addButton(with: "Pause", action: #selector(onPauseVideo(sender:)))
+        btnResume = addButton(with: "Resume", action: #selector(onResumeVideo(sender:)))
+        btnStop = addButton(with: "Stop", action: #selector(onStopVideo(sender:)))
+        btnQuit = addButton(with: "Quit", action: #selector(onQuit(sender:)))
+        btnStartRecord = addButton(with: "Start recording", action: #selector(onStartRecordVideo(sender:)))
+        btnStopRecord = addButton(with: "Stop recording", action: #selector(onStopRecordVideo(sender:)))
         btnStartRecord.isEnabled = false
         btnStopRecord.isEnabled = false
         
@@ -76,12 +76,12 @@ class KSYRecordVC: UIViewController {
         view.addSubview(stat)
         
         labelHWCodec = UILabel()
-        labelHWCodec.text = "硬解码"
+        labelHWCodec.text = "Hard decoding"
         labelHWCodec.textColor = .lightGray
         view.addSubview(labelHWCodec)
         
         labelVolume = UILabel()
-        labelVolume.text = "音量"
+        labelVolume.text = "volume"
         labelVolume.textColor = .lightGray
         view.addSubview(labelVolume)
         
@@ -98,7 +98,7 @@ class KSYRecordVC: UIViewController {
         
         layoutUI()
         
-        view.bringSubview(toFront: stat)
+        view.bringSubviewToFront(stat)
         stat.frame = UIScreen.main.bounds
     }
     
@@ -198,7 +198,7 @@ class KSYRecordVC: UIViewController {
                                           height: btnHgt)
     }
     
-    func handlePlayerNotify(notify: Notification) {
+    @objc func handlePlayerNotify(notify: Notification) {
         guard let _ = player else {
             return
         }
@@ -252,7 +252,7 @@ class KSYRecordVC: UIViewController {
         player?.videoDecoderMode = switchHWCodec.isOn ? MPMovieVideoDecoderMode.hardware : MPMovieVideoDecoderMode.software
         player?.view.frame = videoView.bounds
         videoView.addSubview(player!.view)
-        videoView.bringSubview(toFront: stat)
+        videoView.bringSubviewToFront(stat)
         
         player?.prepareToPlay()
     }
@@ -267,14 +267,14 @@ class KSYRecordVC: UIViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.KSYStreamStateDidChange, object: nil)
     }
     
-    func onVolumeChanged(slider: UISlider) {
+    @objc func onVolumeChanged(slider: UISlider) {
         guard let _ = player else {
             return
         }
         player!.setVolume(slider.value / 100, rigthVolume: slider.value / 100)
     }
     
-    func onPlayVideo(sender: NSObject) {
+    @objc func onPlayVideo(sender: NSObject) {
         if let _ = player {
             player!.setUrl(URL.init(string: "rtmp://live.hkstv.hk.lxdns.com/live/hks"))
             player!.prepareToPlay()
@@ -285,21 +285,21 @@ class KSYRecordVC: UIViewController {
         }
     }
     
-    func onPauseVideo(sender: NSObject) {
+    @objc func onPauseVideo(sender: NSObject) {
         guard let _ = player else {
             return
         }
         player!.pause()
     }
     
-    func onResumeVideo(sender: NSObject) {
+    @objc func onResumeVideo(sender: NSObject) {
         guard let _ = player else {
             return
         }
         player!.play()
     }
     
-    func onStopVideo(sender: UIButton?) {
+    @objc func onStopVideo(sender: UIButton?) {
         guard let _ = player else {
             return
         }
@@ -309,13 +309,13 @@ class KSYRecordVC: UIViewController {
         player = nil
     }
     
-    func onQuit(sender: NSObject) {
+    @objc func onQuit(sender: NSObject) {
         onStopVideo(sender: nil)
         dismiss(animated: false, completion: nil)
         stat.text = nil
     }
     
-    func onStartRecordVideo(sender: NSObject) {
+    @objc func onStartRecordVideo(sender: NSObject) {
         guard let _ = recordFilePath else {
             return
         }
@@ -326,7 +326,7 @@ class KSYRecordVC: UIViewController {
         btnStopRecord.isEnabled = true
     }
     
-    func onStopRecordVideo(sender: NSObject) {
+    @objc func onStopRecordVideo(sender: NSObject) {
         kit?.stopRecord()
         btnStartRecord.isEnabled = true
         btnStopRecord.isEnabled = false
@@ -357,7 +357,7 @@ class KSYRecordVC: UIViewController {
             kit?.contentView.addSubview((player?.view)!)
         }
         view.addSubview((kit?.contentView)!)
-        kit?.contentView.sendSubview(toBack: videoView)
+        kit?.contentView.sendSubviewToBack(videoView)
     }
     
     func onStreamError(errCode: KSYStreamErrorCode) {
@@ -380,7 +380,7 @@ class KSYRecordVC: UIViewController {
         }
     }
     
-    func onStreamStateChange(notify: Notification) {
+    @objc func onStreamStateChange(notify: Notification) {
         guard let _ = kit?.writer else {
             return
         }
@@ -420,7 +420,7 @@ class KSYRecordVC: UIViewController {
     }
     
     //保存mp4文件完成时的回调
-    func didFinishSaving(videoPath: String, error: Error?, contextInfo: UnsafeMutableRawPointer) {
+    @objc func didFinishSaving(videoPath: String, error: Error?, contextInfo: UnsafeMutableRawPointer) {
         var msg: String
         if let _ = error {
             msg = "Failed to save the album!"

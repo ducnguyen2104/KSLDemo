@@ -46,8 +46,8 @@ class QRViewController: UIViewController {
     func addViews() {
         _viewPreview = addViewPreview()
         _QRLabel = addLable()
-        _scanBtn = addButton(title: "正在扫描...")
-        _backBtn = addButton(title: "返回")
+        _scanBtn = addButton(title: "Scanning...")
+        _backBtn = addButton(title: "Back")
         _scanBtn?.frame = CGRect.init(x: 0,
                                       y: _height - 30,
                                       width: _width,
@@ -85,7 +85,7 @@ class QRViewController: UIViewController {
         return btn
     }
     
-    func onBtn(sender: UIButton){
+    @objc func onBtn(sender: UIButton){
         if sender == _scanBtn {
             reScan()
         }else if sender == _backBtn {
@@ -96,23 +96,23 @@ class QRViewController: UIViewController {
     func reScan() {
         if !_isReading {
             if startReading() {
-                _scanBtn?.setTitle("正在扫描...", for: .normal)
+                _scanBtn?.setTitle("Scanning...", for: .normal)
                 _QRLabel?.text = "Scanning for QR Code"
             }
         }else{
             stopReading()
-            _scanBtn?.setTitle("重新扫描", for: .normal)
+            _scanBtn?.setTitle("Rescan", for: .normal)
         }
         _isReading = !_isReading
     }
     
     func startReading() -> Bool {
         // 1.初始化捕捉设备（AVCaptureDevice），类型为AVMediaTypeVideo
-        let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        let captureDevice = AVCaptureDevice.default(for: .video)
         // 2.用captureDevice创建输入流
         var input: AVCaptureDeviceInput? = nil
         do{
-            input = try AVCaptureDeviceInput.init(device: captureDevice)
+            input = try AVCaptureDeviceInput.init(device: captureDevice!)
         }catch let error as NSError{
             print("\(error.debugDescription)")
         }
@@ -134,12 +134,12 @@ class QRViewController: UIViewController {
         // 5.1.设置代理
         captureMetadataOutput.setMetadataObjectsDelegate(self, queue: outputQueue)
         // 5.2.设置输出媒体数据类型为QRCode
-        captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+        captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
         
         // 6.实例化预览图层
-        videoPreviewLayer = AVCaptureVideoPreviewLayer.init(session: captureSession)
+        videoPreviewLayer = AVCaptureVideoPreviewLayer.init(session: captureSession!)
         // 7.设置预览图层填充方式
-        videoPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+        videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         // 8.设置图层的frame
         videoPreviewLayer?.frame = _viewPreview!.layer.bounds
         
@@ -175,18 +175,18 @@ class QRViewController: UIViewController {
         return true
     }
     
-    func stopReading() {
+    @objc func stopReading() {
         captureSession?.stopRunning()
         captureSession = nil
         _scanLayer?.removeFromSuperlayer()
         videoPreviewLayer?.removeFromSuperlayer()
-        _scanBtn?.setTitle("重新扫描", for: .normal)
+        _scanBtn?.setTitle("Rescan", for: .normal)
         if let _ = getQrCode {
             getQrCode!(_QRLabel!.text ?? "")
         }
     }
 
-    func moveScanLayer(timer: Timer) {
+    @objc func moveScanLayer(timer: Timer) {
         var frame = _scanLayer!.frame
         if _boxView!.frame.height < _scanLayer!.frame.origin.y {
             frame.origin.y = 0
@@ -206,7 +206,7 @@ extension QRViewController: AVCaptureMetadataOutputObjectsDelegate {
         if metadataObjects != nil && metadataObjects.count > 0 {
             let metadataObj: AVMetadataMachineReadableCodeObject = metadataObjects.first as! AVMetadataMachineReadableCodeObject
             //判断回传的数据类型
-            if metadataObj.type == AVMetadataObjectTypeQRCode {
+            if metadataObj.type == AVMetadataObject.ObjectType.qr {
                 DispatchQueue.main.async { [weak self] in
                     self?._QRLabel?.text = metadataObj.stringValue
                 }

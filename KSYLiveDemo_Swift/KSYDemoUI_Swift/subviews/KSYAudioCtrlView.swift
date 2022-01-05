@@ -55,25 +55,25 @@ class KSYAudioCtrlView: KSYUIView {
     
     override init(withParent pView: KSYUIView) {
         super.init(withParent: pView)
-        micVol = addSlider(name: "麦克风音量", from: 0.0, to: 2.0, initV: 0.9)
-        bgmVol = addSlider(name: "背景乐音量", from: 0.0, to: 2.0, initV: 0.5)
+        micVol = addSlider(name: "Microphone volume", from: 0.0, to: 2.0, initV: 0.9)
+        bgmVol = addSlider(name: "Background music volume", from: 0.0, to: 2.0, initV: 0.5)
         bgmMix = addSwitch(on: true)
         
-        micInput = addSegCtrlWithItems(items: ["内置mic", "耳麦", "蓝牙mic"])
+        micInput = addSegCtrlWithItems(items: ["Built-in mic", "Headset", "Bluetooth mic"])
         initMicInput()
         
-        lblAudioOnly = addLabel(title: "纯音频推流")  // 关闭视频
+        lblAudioOnly = addLabel(title: "Pure audio streaming")  // 关闭视频
         swAudioOnly = addSwitch(on: false)          // 关闭视频
-        lblMuteSt = addLabel(title: "静音推流")
+        lblMuteSt = addLabel(title: "Mute push")
         muteStream = addSwitch(on: false)
         
         lblReverb = addLabel(title: "混响")
-        reverbType = addSegCtrlWithItems(items: ["关闭", "录影棚",
-                                                  "演唱会","KTV","小舞台"])
+        reverbType = addSegCtrlWithItems(items: ["Off", "Studio",
+                                                  "concert","KTV","Small stage"])
         
-        lblPlayCapture = addLabel(title: "耳返")
+        lblPlayCapture = addLabel(title: "Ear return")
         swPlayCapture = addSwitch(on: false)
-        playCapVol = addSlider(name: "耳返音量", from: 0.0, to: 1.0, initV: 0.5)
+        playCapVol = addSlider(name: "Ear return volume", from: 0.0, to: 1.0, initV: 0.5)
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -105,7 +105,7 @@ class KSYNameSlider: UIView {
         _normalValue = (slider.value - slider.minimumValue) / slider.maximumValue
     }
     
-    func onSlider() {
+    @objc func onSlider() {
         self.updateValue()
         if (onSliderBlock != nil) {
             onSliderBlock!(self)

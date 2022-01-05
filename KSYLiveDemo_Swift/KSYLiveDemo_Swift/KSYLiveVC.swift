@@ -136,7 +136,7 @@ class KSYLiveVC: UIViewController {
         initFrame()
     }
     
-    func onBtn(sender: UIButton) {
+    @objc func onBtn(sender: UIButton) {
         if sender == _buttonQR {
             scanQR()
         }else if sender == _buttonClose {

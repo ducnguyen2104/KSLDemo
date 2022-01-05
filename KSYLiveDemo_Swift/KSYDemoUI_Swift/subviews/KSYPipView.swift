@@ -46,11 +46,11 @@ class KSYPipView: KSYUIView {
         
         progressV = UIProgressView()
         addSubview(progressV!)
-        pipPlay = addButton(title: "播放")
-        pipPause = addButton(title: "暂停")
-        pipStop = addButton(title: "停止")
-        pipNext = addButton(title: "下一个视频文件")
-        bgpNext = addButton(title: "下一个背景图片")
+        pipPlay = addButton(title: "Play")
+        pipPause = addButton(title: "pause")
+        pipStop = addButton(title: "stop")
+        pipNext = addButton(title: "Next video file")
+        bgpNext = addButton(title: "Next background image")
         volumSl = addSlider(name: "音量", from: 0, to: 100, initV: 50)
         
         pipPattern = [".mp4", ".flv"]
@@ -59,10 +59,10 @@ class KSYPipView: KSYUIView {
         _pipSel = KSYFileSelector.init(dir: "/Documents/movies/", suf: pipPattern!)
         _bgpSel = KSYFileSelector.init(dir: "/Documents/images/", suf: bgpPattern!)
         
-        if let filePath = _pipSel?.filePath , filePath.characters.count > 0{
+        if let filePath = _pipSel?.filePath , filePath.count > 0{
             pipURL = URL.init(fileURLWithPath: _pipSel!.filePath)
         }
-        if let filePath = _bgpSel?.filePath , filePath.characters.count > 0 {
+        if let filePath = _bgpSel?.filePath , filePath.count > 0 {
             bgpURL = URL.init(fileURLWithPath: _bgpSel!.filePath)
         }
     }

@@ -162,7 +162,7 @@ class MonkeyTestViewController: UIViewController {
                                       animated: true)
     }
     
-    func handlePlayerNofity(notify: Notification) {
+    @objc func handlePlayerNofity(notify: Notification) {
         guard let _ = player else {
             return
         }
@@ -298,7 +298,7 @@ class MonkeyTestViewController: UIViewController {
         appendDebugInfoWithString(infoString: "reload \(shouldFlush ? "whit" : "without") flush\n")
     }
     
-    func randomPlaybackControl() {
+    @objc func randomPlaybackControl() {
         if arc4random() % 3 == 0 {
             dispatch_main_sync_safe {
                 self.stopAndReconfigurePlayer()
@@ -331,7 +331,7 @@ class MonkeyTestViewController: UIViewController {
     }
     
     // MARK: - Control action methods
-    func onControlButton(sender: NSObject) {
+    @objc func onControlButton(sender: NSObject) {
         if !isRunning {
             configurePlayerRandomly()
             repeatTimer = Timer.scheduledTimer(timeInterval: 5,
@@ -348,14 +348,14 @@ class MonkeyTestViewController: UIViewController {
         
     }
     
-    func onQuitButton(sender: NSObject) {
+    @objc func onQuitButton(sender: NSObject) {
         stopPlaying()
         repeatTimer?.invalidate()
         isRunning = false
         dismiss(animated: true, completion: nil)
     }
     
-    func onScanButton(sender: NSObject) {
+    @objc func onScanButton(sender: NSObject) {
         let URLTableVC = URLTableViewController.init(urls: URLs)
         URLTableVC.getURLs = { [weak self] (scannedURLs) -> Void in
             self?.URLs?.removeAll()

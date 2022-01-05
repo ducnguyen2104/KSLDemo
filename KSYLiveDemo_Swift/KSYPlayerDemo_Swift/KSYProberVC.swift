@@ -108,7 +108,7 @@ class KSYProberVC: UIViewController {
         stat?.frame = CGRect.init(x: 20, y: 0, width: wdt, height: hgt)
     }
     
-    func onProbeMediaInfo(sender: NSObject) {
+    @objc func onProbeMediaInfo(sender: NSObject) {
         guard let _ = prober else {
             return
         }
@@ -145,7 +145,7 @@ class KSYProberVC: UIViewController {
         stat?.text = result
     }
     
-    func onThumbnail(sender: NSObject) {
+    @objc func onThumbnail(sender: NSObject) {
         guard let _ = prober else {
             return
         }
@@ -155,21 +155,21 @@ class KSYProberVC: UIViewController {
         if let _ = thumbnailImage {
             UIImageWriteToSavedPhotosAlbum(thumbnailImage!, self, #selector(didFinishSaving(image:error:contextInfo:)), nil)
         }else {
-            let toast = UIAlertView.init(title: "￣へ￣", message: "缩略图截取失败！", delegate: nil, cancelButtonTitle: "确定")
+            let toast = UIAlertView.init(title: "￣へ￣", message: "Thumbnail capture failed！", delegate: nil, cancelButtonTitle: "ok")
             toast.show()
         }
     }
     
-    func onQuit(sender: UIButton) {
+    @objc func onQuit(sender: UIButton) {
         dismiss(animated: false, completion: nil)
     }
     
-    func didFinishSaving(image: UIImage, error: NSError?, contextInfo: UnsafeMutableRawPointer) {
+    @objc func didFinishSaving(image: UIImage, error: NSError?, contextInfo: UnsafeMutableRawPointer) {
         if let _ = error {
-            let toast = UIAlertView.init(title: "￣へ￣", message: "缩略图截取失败！", delegate: nil, cancelButtonTitle: "确定")
+            let toast = UIAlertView.init(title: "￣へ￣", message: "Thumbnail capture failed！", delegate: nil, cancelButtonTitle: "ok")
             toast.show()
         }else{
-            let toast = UIAlertView.init(title: "O(∩_∩)O~~", message: "截图已保存至手机相册", delegate: nil, cancelButtonTitle: "确定")
+            let toast = UIAlertView.init(title: "O(∩_∩)O~~", message: "The screenshot has been saved to the phone album", delegate: nil, cancelButtonTitle: "ok")
             toast.show()
         }
     }

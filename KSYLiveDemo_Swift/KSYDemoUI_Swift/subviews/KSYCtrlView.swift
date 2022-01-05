@@ -36,12 +36,12 @@ class KSYCtrlView: KSYUIView {
     
     init(menuNames: [String]) {
         super.init()
-        btnFlash = addButton(title: "闪光灯")
-        btnCameraToggle = addButton(title: "前后摄像头")
-        btnQuit = addButton(title: "退出")
+        btnFlash = addButton(title: "flash")
+        btnCameraToggle = addButton(title: "Front and rear cameras")
+        btnQuit = addButton(title: "quit")
         lblNetwork = addLabel(title: "")
-        btnStream = addButton(title: "推流")
-        btnCapture = addButton(title: "采集")
+        btnStream = addButton(title: "Push stream")
+        btnCapture = addButton(title: "Capture")
         lblStat = KSYStateLableView()
         addSubview(lblStat!)
         
@@ -56,7 +56,7 @@ class KSYCtrlView: KSYUIView {
         
         menuBtns = btnArray
         
-        backBtn = addButton(title: "菜单", action: #selector(onBack(sender:)))
+        backBtn = addButton(title: "menu", action: #selector(onBack(sender:)))
         backBtn?.isHidden = true
         _curSubMenuView = nil
     }
@@ -94,7 +94,7 @@ class KSYCtrlView: KSYUIView {
         }
     }
     
-    func onBack(sender: UIButton) {
+    @objc func onBack(sender: UIButton) {
         if let _ = _curSubMenuView {
             _curSubMenuView?.isHidden = true
         }

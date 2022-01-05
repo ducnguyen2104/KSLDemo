@@ -230,7 +230,7 @@ class KSYUIView: UIView {
     func addTextField(text: String) -> UITextField {
         let textF = UITextField.init()
         textF.text = text
-        textF.borderStyle = UITextBorderStyle.roundedRect
+        textF.borderStyle = UITextField.BorderStyle.roundedRect
         addSubview(textF)
         
         return textF
@@ -243,6 +243,9 @@ class KSYUIView: UIView {
         button.alpha = 0.9
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
+        button.titleLabel?.numberOfLines = 0
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 9)
         addSubview(button)
         
         return button
@@ -269,7 +272,7 @@ class KSYUIView: UIView {
         segC.layer.cornerRadius = 5
         segC.backgroundColor = UIColor.lightGray
         segC .addTarget(self, action: #selector(onSegCtrl(sender:)), for: .valueChanged)
-        
+        segC.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 9)], for: .normal)
         addSubview(segC)
         
         return segC
@@ -279,7 +282,7 @@ class KSYUIView: UIView {
         let lbl = UILabel.init()
         lbl.text = title
         lbl.backgroundColor = UIColor.init(white: 0.8, alpha: 0.3)
-        
+        lbl.font = UIFont.systemFont(ofSize: 9)
         addSubview(lbl)
         
         return lbl
@@ -334,8 +337,10 @@ class KSYUIView: UIView {
         sl.slider.maximumValue = maxV
         sl.slider.value = initV
         sl.nameL.text = nm
+        sl.nameL.font = UIFont.systemFont(ofSize: 9)
         sl.normalValue = (initV - minV)/maxV
         sl.valueL.text = "\(initV )"
+        sl.valueL.font = UIFont.systemFont(ofSize: 9)
         addSubview(sl)
         
         if initV < 2 {
@@ -351,7 +356,7 @@ class KSYUIView: UIView {
     }
     
     // MARK: UI respond
-    func onBtn(sender: AnyObject) {
+    @objc func onBtn(sender: AnyObject) {
         if onBtnBlock != nil {
             onBtnBlock!(sender)
         }
@@ -360,7 +365,7 @@ class KSYUIView: UIView {
         }
     }
     
-    func onSwitch(sender: AnyObject) {
+    @objc func onSwitch(sender: AnyObject) {
         if onSwitchBlock != nil {
             onSwitchBlock!(sender)
         }
@@ -369,7 +374,7 @@ class KSYUIView: UIView {
         }
     }
     
-    func onSlider(sender: UIView) {
+    @objc func onSlider(sender: UIView) {
         if onSliderBlock != nil {
             onSliderBlock!(sender)
         }
@@ -378,7 +383,7 @@ class KSYUIView: UIView {
         }
     }
     
-    func onSegCtrl(sender: AnyObject) {
+    @objc func onSegCtrl(sender: AnyObject) {
         if onSegCtrlBlock != nil {
             onSegCtrlBlock!(sender)
         }

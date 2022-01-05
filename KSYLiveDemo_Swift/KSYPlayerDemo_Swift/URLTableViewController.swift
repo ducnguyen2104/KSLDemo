@@ -55,11 +55,11 @@ class URLTableViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: kCellWithIdentifier)
     }
 
-    func cancel() {
+    @objc func cancel() {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    func confirm() {
+    @objc func confirm() {
         var URLs: [URL] = Array()
         guard let _ = stringURLs else{
             return
@@ -74,7 +74,7 @@ class URLTableViewController: UITableViewController {
         })
     }
     
-    func scanQR() {
+    @objc func scanQR() {
         let qrVC = QRViewController()
         qrVC.getQrCode = { [weak self] (stringQR) -> Void in
             self?.stringURLs?.append(stringQR)
@@ -110,7 +110,7 @@ class URLTableViewController: UITableViewController {
         return true
     }
 
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)

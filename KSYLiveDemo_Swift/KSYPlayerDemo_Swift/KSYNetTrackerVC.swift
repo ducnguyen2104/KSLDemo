@@ -55,7 +55,7 @@ class KSYNetTrackerVC: UIViewController {
                                                    width: wdt * 4 / 5,
                                                    height: elem_height))
         lbDomain?.textColor = .black
-        lbDomain?.text = "请输入待探测地址："
+        lbDomain?.text = "Please enter the address to be detected："
         view.addSubview(lbDomain!)
         
         xPos += 20
@@ -157,14 +157,14 @@ class KSYNetTrackerVC: UIViewController {
         }
     }
     
-    func onQuit(sender: UIButton) {
+    @objc func onQuit(sender: UIButton) {
         displayStr = ""
         displayInfo()
         stopNetDiagnosis()
         dismiss(animated: false, completion: nil)
     }
     
-    func startNetDiagnosis(btn: UIButton) {
+    @objc func startNetDiagnosis(btn: UIButton) {
         if !isRunning {
             displayStr = ""
             
@@ -177,7 +177,7 @@ class KSYNetTrackerVC: UIViewController {
             tracker?.action = action!
             if let _ = tracker ,let _ = tfDomain{
                 if tracker!.start((tfDomain!.text)!) != 0 {
-                    displayStr = "启动探测失败，请检查网络或待探测地址!"
+                    displayStr = "Failed to start the detection, please check the network or the address to be detected!"
                     displayInfo()
                     return
                 }
@@ -193,16 +193,16 @@ class KSYNetTrackerVC: UIViewController {
             }
             
             isRunning = !isRunning
-            displayStr = "开始探测......\n"
-            stateStr = "开始探测......\n"
+            displayStr = "Start detection......\n"
+            stateStr = "Start detection......\n"
             displayInfo()
         }else{
             stopNetDiagnosis()
             if action == KSY_NETTRACKER_ACTION.PING {
                 displayStr = displayStr?.appending(getPingRetStr())
             }else{
-                displayStr = "停止探测，已统计结果如下：\n"
-                stateStr = "停止探测，已统计结果如下：\n"
+                displayStr = "Stop the detection, the statistical results are as follows：\n"
+                stateStr = "Stop the detection, the statistical results are as follows：\n"
                 displayStr = displayStr?.appending(infoLog ?? "")
             }
             displayInfo()
@@ -221,7 +221,7 @@ class KSYNetTrackerVC: UIViewController {
         isRunning = false
     }
     
-    func handleTrackerNotify(notify: NSNotification) {
+    @objc func handleTrackerNotify(notify: NSNotification) {
         guard let _ = tracker else {
             return
         }
@@ -248,7 +248,7 @@ class KSYNetTrackerVC: UIViewController {
             if action == KSY_NETTRACKER_ACTION.PING {
                 displayStr = displayStr?.appending(getPingRetStr())
             }else {
-                stateStr = "探测完成，结果如下：\n\n"
+                stateStr = "The detection is complete, and the results are as follows：\n\n"
                 displayStr = ""
                 displayStr = displayStr?.appending(stateStr ?? "")
                 displayStr = displayStr?.appending(infoLog ?? "")
@@ -310,13 +310,13 @@ class KSYNetTrackerVC: UIViewController {
         }
         
         tracker!.routerInfo?.enumerateObjects( { (netInfo, idx, _) in
-            if let info: KSYNetRouterInfo = (netInfo as! KSYNetRouterInfo) {
+            if let info: KSYNetRouterInfo = (netInfo as? KSYNetRouterInfo) {
                 
                 if let _ = info.ips {
                     j = 0;
                     
                     for ip in info.ips! {
-                        if let ip: String = (ip as! String) {
+                        if let ip: String = (ip as? String) {
                             if j == 0 {
                                 infoLog = infoLog.appendingFormat("%-3d", i)
                                 infoLog = infoLog.appendingFormat("%-16s", (ip as NSString).utf8String!)
