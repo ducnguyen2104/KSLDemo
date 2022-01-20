@@ -30,6 +30,7 @@ class KSYAudioCtrlView: KSYUIView {
     var micInput: UISegmentedControl?   /// 音频输入设备选择(话筒, 有限耳麦 或 蓝牙耳麦)
     
     var reverbType: UISegmentedControl? /// 混响类型选择
+    var effectType: UISegmentedControl?
     var swPlayCapture: UISwitch?        /// 耳返 (本地直接播放采集到的声音) (请戴耳机之后再使用本功能)
     var playCapVol: KSYNameSlider?      /// 本地播放的音量
     var _micType: KSYMicType?
@@ -52,7 +53,7 @@ class KSYAudioCtrlView: KSYUIView {
     var lblAudioOnly: UILabel?
     var lblMuteSt: UILabel?
     var lblReverb: UILabel?
-    
+    var lblEffect: UILabel?
     override init(withParent pView: KSYUIView) {
         super.init(withParent: pView)
         micVol = addSlider(name: "Microphone volume", from: 0.0, to: 2.0, initV: 0.9)
@@ -67,10 +68,11 @@ class KSYAudioCtrlView: KSYUIView {
         lblMuteSt = addLabel(title: "Mute push")
         muteStream = addSwitch(on: false)
         
-        lblReverb = addLabel(title: "混响")
+        lblReverb = addLabel(title: "reverberation")
         reverbType = addSegCtrlWithItems(items: ["Off", "Studio",
                                                   "concert","KTV","Small stage"])
-        
+        lblEffect = addLabel(title: "Effect")
+        effectType = addSegCtrlWithItems(items: ["None", "Male", "Female", "Heroic", "Robot", "Custom"])
         lblPlayCapture = addLabel(title: "Ear return")
         swPlayCapture = addSwitch(on: false)
         playCapVol = addSlider(name: "Ear return volume", from: 0.0, to: 1.0, initV: 0.5)
@@ -89,6 +91,7 @@ class KSYAudioCtrlView: KSYUIView {
         putRow1(subV: micInput!)
         putRow(subV: [lblAudioOnly!, swAudioOnly!, lblMuteSt!, muteStream!])
         putLabel(lbl: lblReverb!, andView: reverbType!)
+        putLabel(lbl: lblEffect!, andView: effectType!)
         
         // tip: Array cannot contains NSNull
         let arr: NSArray = NSArray.init(objects: NSNull(), NSNull(), lblPlayCapture!, swPlayCapture!)

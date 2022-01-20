@@ -715,6 +715,10 @@ class KSYStreamerVC: KSYUIVC, UIImagePickerControllerDelegate, UINavigationContr
                 let t: Int = seg.selectedSegmentIndex
                 kit?.aCapDev.reverbType = Int32(t)
                 return
+            } else if seg == audioView?.effectType {
+                let t: Int = seg.selectedSegmentIndex
+                kit?.aCapDev.effectType = KSYAudioEffectType(rawValue: UInt(t))!
+                return
             }
         }
     }
